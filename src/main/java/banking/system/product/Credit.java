@@ -20,6 +20,7 @@ public class Credit extends BaseEntity {
     private Account account;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @NotNull
