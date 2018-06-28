@@ -27,6 +27,8 @@ public class Account extends BaseEntity {
     @NotNull
     private Client owner;
 
+    private AccountType type;
+
     @NotNull
     private BigDecimal balance;
 
@@ -55,9 +57,10 @@ public class Account extends BaseEntity {
     public Account() {
     }
 
-    public Account(String number, Client owner, BigDecimal balance, Currency currency, Set<Transaction> transactions, BigDecimal interest, BigDecimal provision, Credit credit, Investment investment) {
+    public Account(String number, Client owner, AccountType type, BigDecimal balance, Currency currency, Set<Transaction> transactions, BigDecimal interest, BigDecimal provision, Credit credit, Investment investment) {
         this.number = number;
         this.owner = owner;
+        this.type=type;
         this.balance = balance;
         this.currency = currency;
         this.transactions = transactions;
@@ -93,6 +96,14 @@ public class Account extends BaseEntity {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public AccountType getType() {
+        return type;
+    }
+
+    public void setType(AccountType type) {
+        this.type = type;
     }
 
     public Currency getCurrency() {
