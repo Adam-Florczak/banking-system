@@ -27,12 +27,14 @@ public class Account extends BaseEntity {
     @NotNull
     private Client owner;
 
+    @Enumerated(EnumType.STRING)
     private AccountType type;
 
     @NotNull
     private BigDecimal balance;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @ManyToMany
