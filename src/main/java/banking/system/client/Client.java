@@ -23,6 +23,8 @@ public class Client extends BaseEntity {
 
     private String firstName;
 
+    private boolean enabled;
+
     private String lastName;
 
     @OneToOne
@@ -41,6 +43,7 @@ public class Client extends BaseEntity {
         this.lastName = lastName;
         this.address = address;
         this.password = password;
+        this.enabled = false;
     }
 
     public Long getId() {
@@ -93,5 +96,13 @@ public class Client extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
