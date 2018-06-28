@@ -1,5 +1,6 @@
 package banking.system.client;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +55,5 @@ public class ClientServiceImpl implements ClientService {
     public void deleteOneById(Long id) {
         clientRepository.delete(id);
     }
+
 }
