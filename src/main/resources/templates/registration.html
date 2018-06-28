@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div>
+    <h1 th:text="#{label.form.title}">Registration</h1>
+    <form th:action="/newclient" th:object="${client}" method="post" enctype="utf8">
+        <div>
+            <label th:text="#{label.client.firstName}">First name: </label><br>
+            <input th:field="*{firstName}"/>
+            <!--<p th:each="error: ${#fields.errors('firstName')}"-->
+               <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.lastName}">Last name: </label><br>
+            <input th:field="*{lastName}"/>
+            <!--<p th:each="error : ${#fields.errors('lastName')}"-->
+               <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.email}">E-mail</label><br>
+            <input type="email" th:field="*{email}"/>
+            <!--<p th:each="error : ${#fields.errors('email')}"-->
+               <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.password}">Password</label><br>
+            <input type="password" th:field="*{password}"/>
+            <!--<p th:each="error : ${#fields.errors('password')}"-->
+               <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.confirmPass}">Confirm password</label><br>
+            <input type="password" th:field="*{matchingPassword}"/>
+        </div>
+        <button type="submit" th:text="#{label.form.submit}">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>
