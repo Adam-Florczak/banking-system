@@ -1,5 +1,7 @@
 package banking.system.registration;
 
+import banking.system.client.Client;
+import banking.system.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,55 +22,53 @@ import javax.validation.Valid;
 public class RegistrationController {
 
 
-    private ClientService userService;
+    private ClientService clientService;
 
     @Autowired
     RegistrationController(ClientService clientService){
-        this.ClientService = clientService;
+        this.clientService = clientService;
     }
 
-    @ModelAttribute("user")
-    public UserCreateDTO userRegistration() {
-        return new UserCreateDTO();
+    @ModelAttribute("client")
+    public ClientCreateDTO userRegistration() {
+        return new ClientCreateDTO();
     }
 
 @GetMapping
 public String showRegistrationform(Model model){
-        model.addAttribute("user",new UserCreateDTO());
+        model.addAttribute("client",new ClientCreateDTO());
     return "/registration";
 }
 
     @PostMapping(value = "/newclient")
-    public ModelAndView registerUserAccount(
-            @ModelAttribute("user") @Valid UserCreateDto userCreateDTO,
+    public ModelAndView registerClientAccount(
+            @ModelAttribute("client") @Valid ClientCreateDTO clientCreateDTO,
             BindingResult result,
             WebRequest request,
             Errors errors) {
 
-        User registered = new User();
+        Client registered = new Client();
         if (!result.hasErrors()) {
-            registered = createUserAccount(userCreateDTO, result);
+            registered = createClientAccount(clientCreateDTO, result);
         }
         if (registered == null) {
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            return new ModelAndView("registration", "user", userCreateDTO);
+            return new ModelAndView("registration", "client", clientCreateDTO);
         }
         else {
-            return new ModelAndView("successRegister", "user", userCreateDTO);
+            return new ModelAndView("successRegister", "client", clientCreateDTO);
         }
     }
-    private User createUserAccount(UserCreateDTO accountDto, BindingResult result) {
-        User registered = null;
+    private Client createClientAccount(ClientCreateDTO clientCreateDTO, BindingResult result) {
+        Client registered = null;
         try {
-            registered = service.registerNewUserAccount(accountDto);
-        } catch (EmailExistsException e) {
+            registered = clientService.registerNewUserAccount(clientCreateDTO);
+        } catch (EmailAlreadyRegisteredException e) {
             return null;
         }
         return registered;
     }
-
-
 
 }
