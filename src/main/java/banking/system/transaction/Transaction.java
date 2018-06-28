@@ -2,6 +2,7 @@ package banking.system.transaction;
 
 import banking.system.account.Account;
 import banking.system.common.Currency;
+import banking.system.product.Credit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,8 @@ public class Transaction {
 
     @NotNull
     private String title;
+
+
 
     public Transaction() {
     }
@@ -82,6 +85,14 @@ public class Transaction {
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }
+
+/*    public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }*/
 
     public BigDecimal getAmount() {
         return amount;
