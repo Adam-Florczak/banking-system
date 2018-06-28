@@ -12,4 +12,5 @@ public interface ClientService {
 
     void deleteOneById(Long id);
 
+    void createVerificationToken(Client client, String token);
 }
