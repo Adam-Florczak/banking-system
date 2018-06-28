@@ -12,6 +12,15 @@ public class AccountCreateDTO {
     private Currency currency;
     private BigDecimal interest;
     private BigDecimal provision;
+    private AccountType accountType;
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
 
     public String getNumber() {
         return number;

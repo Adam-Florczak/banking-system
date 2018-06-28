@@ -54,7 +54,11 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        return null;
+        account.setType(accountCreateDTO.getAccountType());
+        account.setInterest(accountCreateDTO.getInterest());
+        account.setProvision(accountCreateDTO.getProvision());
+
+        return repository.save(account);
     }
 
     @Override
