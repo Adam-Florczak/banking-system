@@ -3,10 +3,7 @@ package banking.system.transaction;
 import banking.system.account.Account;
 import banking.system.common.Currency;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +24,7 @@ public class Transaction {
     private LocalDateTime dueDate;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @NotNull
