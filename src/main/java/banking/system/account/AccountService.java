@@ -11,4 +11,8 @@ public interface AccountService {
     void deleteOneById(Long id);
 
     Account createAccount(AccountCreateDTO accountCreateDTO);
+
+    Boolean isAccountExists(String accountNumber);
+
+    String generateAccountNumber();
 }

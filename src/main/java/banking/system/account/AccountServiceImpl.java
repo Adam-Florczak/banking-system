@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 @Service
@@ -44,6 +45,31 @@ public class AccountServiceImpl implements AccountService {
         account.setOwner(accountCreateDTO.getOwner());
         account.setCurrency(accountCreateDTO.getCurrency());
 
+        boolean isNrOk = false;
+        while (!isNrOk) {
+            String accountNumber = generateAccountNumber();
+            if (!isAccountExists(accountNumber)) {
+                account.setNumber(accountNumber);
+                isNrOk = true;
+            }
+        }
+
         return null;
+    }
+
+    @Override
+    public Boolean isAccountExists(String accountNumber) {
+        Set<Account> accounts = new HashSet<>(repository.findAll());
+        Set<String> numbers = new HashSet<>();
+        accounts.forEach(a -> numbers.add(a.getNumber()));
+        return numbers.contains(accountNumber);
+
+    }
+
+    @Override
+    public String generateAccountNumber() {
+        Random rnd = new Random();
+        int nr = 10000000 + rnd.nextInt(90000000);
+        return "PL".concat(Integer.toString(nr));
     }
 }
