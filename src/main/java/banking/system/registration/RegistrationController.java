@@ -1,6 +1,7 @@
 package banking.system.registration;
 
 import banking.system.client.Client;
+import banking.system.client.ClientCreateDTO;
 import banking.system.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
