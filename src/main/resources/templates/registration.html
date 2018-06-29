@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div>
+<div class="reg-form">
     <h1 th:text="#{label.form.title}">Registration</h1>
     <form th:action="/newclient" th:object="${client}" method="post" enctype="utf8">
         <div>
@@ -21,19 +23,21 @@
                <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label th:text="#{label.client.email}">E-mail</label><br>
+
+            <label th:text="#{label.client.email}">E-mail: </label><br>
             <input type="email" th:field="*{email}"/>
             <!--<p th:each="error : ${#fields.errors('email')}"-->
                <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label th:text="#{label.client.password}">Password</label><br>
+            <label th:text="#{label.client.password}">Password: </label><br>
+
             <input type="password" th:field="*{password}"/>
             <!--<p th:each="error : ${#fields.errors('password')}"-->
                <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label th:text="#{label.client.confirmPass}">Confirm password</label><br>
+            <label th:text="#{label.client.confirmPass}">Confirm password: </label><br>
             <input type="password" th:field="*{matchingPassword}"/>
         </div>
         <button type="submit" th:text="#{label.form.submit}">Submit</button>
