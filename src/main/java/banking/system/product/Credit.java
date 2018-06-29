@@ -16,7 +16,7 @@ public class Credit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "credit")
+    @OneToOne
     private Account account;
 
     @NotNull
@@ -32,7 +32,7 @@ public class Credit extends BaseEntity {
     @NotNull
     private BigDecimal interest;
 
-    @OneToMany(mappedBy = "credit")
+    @OneToMany
     private Set<Transaction> installments;
 
     public Credit() {
