@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -22,6 +23,7 @@
                <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
+
             <label th:text="#{label.client.email}">E-mail: </label><br>
             <input type="email" th:field="*{email}"/>
             <!--<p th:each="error : ${#fields.errors('email')}"-->
@@ -29,6 +31,7 @@
         </div>
         <div>
             <label th:text="#{label.client.password}">Password: </label><br>
+
             <input type="password" th:field="*{password}"/>
             <!--<p th:each="error : ${#fields.errors('password')}"-->
                <!--th:text="${error}">Validation error</p>-->
