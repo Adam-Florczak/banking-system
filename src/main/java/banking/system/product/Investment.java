@@ -33,6 +33,7 @@ public class Investment extends BaseEntity {
     private BigDecimal interest;
 
     @NotNull
+    @OneToOne
     private Transaction payment;
 
     public Investment() {

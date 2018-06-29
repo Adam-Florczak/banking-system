@@ -1,6 +1,8 @@
 package banking.system.client;
 
 
+import banking.system.registration.VerificationToken;
+import banking.system.registration.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
     private AddressRepository addressRepository;
+    private VerificationTokenRepository tokenRepository;
 
     @Autowired
     public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository) {
@@ -64,6 +67,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteOneById(Long id) {
         clientRepository.delete(id);
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String token) {
+        return tokenRepository.findByToken(token);
+    }
+
+    @Override
+    public void saveRegisteredClient(Client client) {
+        clientRepository.save(client);
     }
 
 }
