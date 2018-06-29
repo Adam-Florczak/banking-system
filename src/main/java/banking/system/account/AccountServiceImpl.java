@@ -58,6 +58,7 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
+        account.setBalance(BigDecimal.ZERO);
         account.setType(accountCreateDTO.getAccountType());
         account.setInterest(accountCreateDTO.getInterest());
         account.setProvision(accountCreateDTO.getProvision());
