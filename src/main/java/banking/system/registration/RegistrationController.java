@@ -10,15 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 @RequestMapping(value = "/register")
@@ -71,6 +69,15 @@ public class RegistrationController {
             return new ModelAndView("emailError", "client", clientCreateDTO);
         }
         return new ModelAndView("successRegister", "client", clientCreateDTO);
+    }
+
+    public String confirmRegistration(
+            WebRequest request, Model model, @RequestParam("token") String token) {
+
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = clientService.getVerificationToken(token);
+        return null;
     }
 
     private Client createClientAccount(ClientCreateDTO clientCreateDTO, BindingResult result) {
