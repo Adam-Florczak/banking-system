@@ -3,7 +3,9 @@ package banking.system.registration;
 import banking.system.client.Client;
 import banking.system.client.ClientCreateDTO;
 import banking.system.client.ClientService;
+import banking.system.exception.EmailAlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,9 +27,12 @@ public class RegistrationController {
 
     private ClientService clientService;
 
+    private ApplicationEventPublisher eventPublisher;
+
     @Autowired
-    RegistrationController(ClientService clientService){
+    public RegistrationController(ClientService clientService, ApplicationEventPublisher eventPublisher) {
         this.clientService = clientService;
+        this.eventPublisher = eventPublisher;
     }
 
     @ModelAttribute("client")
@@ -35,11 +40,11 @@ public class RegistrationController {
         return new ClientCreateDTO();
     }
 
-@GetMapping
-public String showRegistrationform(Model model){
-        model.addAttribute("client",new ClientCreateDTO());
-    return "/registration";
-}
+    @GetMapping
+    public String showRegistrationform(Model model) {
+        model.addAttribute("client", new ClientCreateDTO());
+        return "/registration";
+    }
 
     @PostMapping(value = "/newclient")
     public ModelAndView registerClientAccount(
@@ -58,10 +63,16 @@ public String showRegistrationform(Model model){
         if (result.hasErrors()) {
             return new ModelAndView("registration", "client", clientCreateDTO);
         }
-        else {
-            return new ModelAndView("successRegister", "client", clientCreateDTO);
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+                    registered, request.getLocale(), appUrl));
+        } catch (Exception me) {
+            return new ModelAndView("emailError", "client", clientCreateDTO);
         }
+        return new ModelAndView("successRegister", "client", clientCreateDTO);
     }
+
     private Client createClientAccount(ClientCreateDTO clientCreateDTO, BindingResult result) {
         Client registered = null;
         try {
