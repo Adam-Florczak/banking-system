@@ -20,6 +20,8 @@ public class AccountServiceImpl implements AccountService {
         this.repository = repository;
     }
 
+    public AccountServiceImpl() {
+    }
 
     @Override
     public Account findById(Long id) {
