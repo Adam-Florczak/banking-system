@@ -22,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client findById(Long id) {
-        Optional<Client> optionalClient=clientRepository.findById(id);
+        Optional<Client> optionalClient= clientRepository.findById(id);
         if(optionalClient.isPresent()){
             return optionalClient.get();
         }
@@ -37,6 +37,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void createVerificationToken(Client client, String token) {
+
+    }
+
+    @Override
+    public Client registerNewUserAccount(ClientCreateDTO clientCreateDTO) {
+        return null;
+    }
+
+   @Override
     public Client createAddress(ClientCreateDTO clientCreateDTO) {
         Client client=new Client();
         Optional<Address> optionalAddress=addressRepository.findById(clientCreateDTO.getAddressId());

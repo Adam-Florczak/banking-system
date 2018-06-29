@@ -52,6 +52,7 @@ public class Account extends BaseEntity {
     @OneToOne
     private Credit credit;
 
+
     @OneToOne
     private Investment investment;
 
