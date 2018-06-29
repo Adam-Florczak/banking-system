@@ -1,8 +1,10 @@
 package banking.system.account;
 
+import banking.system.common.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
@@ -58,7 +60,58 @@ public class AccountServiceImpl implements AccountService {
         account.setInterest(accountCreateDTO.getInterest());
         account.setProvision(accountCreateDTO.getProvision());
 
-        return repository.save(account);
+        if (account.getType().equals(AccountType.PERSONAL)) {
+            if (!(account.getProvision().equals(BigDecimal.ZERO))) {
+                throw new RuntimeException("Personal account must not have set provision!");
+            }
+
+            if (!(account.getInterest().equals(BigDecimal.ZERO))) {
+                throw new RuntimeException("Personal account must not have set interest");
+            }
+
+            if (!(account.getCurrency().equals(Currency.PLN))) {
+                throw new RuntimeException("Personal account must have set PLN currency");
+            }
+
+            return repository.save(account);
+        }
+
+        if (account.getType().equals(AccountType.FOREIGNCURRENCY)) {
+            if (account.getProvision().equals(BigDecimal.ZERO)) {
+                throw new RuntimeException("Forreign currency account must have set provision!");
+            }
+
+            if (!(account.getInterest().equals(BigDecimal.ZERO))) {
+                throw new RuntimeException("Forreign currency account must not have set interest");
+            }
+
+            if (account.getCurrency().equals(Currency.PLN)) {
+                throw new RuntimeException("Forreign currency account must not have set PLN currency");
+            }
+
+            return repository.save(account);
+
+        }
+
+        if (account.getType().equals(AccountType.SAVINGS)) {
+            if (! (account.getProvision().equals(BigDecimal.ZERO))) {
+                throw new RuntimeException("Savings account must not have set provision!");
+            }
+
+            if (account.getInterest().equals(BigDecimal.ZERO)) {
+                throw new RuntimeException("Savings account must have set interest");
+            }
+
+            if (!(account.getCurrency().equals(Currency.PLN))) {
+                throw new RuntimeException("Savings account must have set PLN currency");
+            }
+
+            return repository.save(account);
+
+        }
+
+        throw new RuntimeException("Account must have set account type");
+
     }
 
     @Override
