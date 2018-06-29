@@ -15,9 +15,11 @@ public class Transaction {
     private Long id;
 
     @NotNull
+    @ManyToOne
     private Account from;
 
     @NotNull
+    @ManyToOne
     private Account to;
 
     @NotNull
