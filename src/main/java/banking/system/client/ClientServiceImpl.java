@@ -88,4 +88,9 @@ public class ClientServiceImpl implements ClientService {
         }
         return new MyClientPrincipal(client);
     }
+
+    @Override
+    public void createVerificationToken(Client client, String token) {
+
+    }
 }

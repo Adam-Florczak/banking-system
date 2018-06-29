@@ -1,10 +1,12 @@
 package banking.system.client;
 
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Optional;
 import java.util.Set;
 
-public interface ClientService {
-
+public interface ClientService extends UserDetailsService {
     Client findById(Long id);
 
     Set<Client> findAll();
@@ -13,8 +15,9 @@ public interface ClientService {
 
     Client registerNewUserAccount(ClientCreateDTO clientCreateDTO);
 
-    Client createAddress(ClientCreateDTO clientCreateDTO);
+    Client findByEmail(String email);
 
     void deleteOneById(Long id);
 
+    Client createAddress(ClientCreateDTO clientCreateDTO);
 }
