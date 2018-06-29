@@ -20,4 +20,6 @@ public interface ClientService {
     void deleteOneById(Long id);
 
     VerificationToken getVerificationToken(String token);
+
+    void saveRegisteredClient(Client client);
 }
