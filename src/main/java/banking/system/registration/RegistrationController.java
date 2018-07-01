@@ -99,7 +99,7 @@ public class RegistrationController {
         }
         client.setEnabled(true);
         clientService.saveRegisteredClient(client);
-        return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
+        return "redirect:/layout.html?lang=" + request.getLocale().getLanguage();
     }
 
     private Client createClientAccount(ClientCreateDTO clientCreateDTO, BindingResult result) {

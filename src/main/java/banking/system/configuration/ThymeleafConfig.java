@@ -1,3 +1,4 @@
+/*
 package banking.system.configuration;
 
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,10 @@ public class ThymeleafConfig {
         templateResolver.setOrder(Integer.valueOf(0));
         templateResolver.setPrefix("/templates");
         templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode(TemplateResolver.DEFAULT_TEMPLATE_MODE);
+     //   templateResolver.setTemplateMode(TemplateResolver.DEFAULT_TEMPLATE_MODE);
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setCacheable(false);
         return templateResolver;
     }
 }
+*/

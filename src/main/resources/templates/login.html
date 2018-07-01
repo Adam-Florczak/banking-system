@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Log in</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<div class="form">
-    <h1 th:text="#{label.form.title}">Log in to Your account</h1>
-    <form th:action="/login" th:object="${login}" method="post" enctype="utf8">
-        <div>
-            <label th:text="#{label.login.email}">E-mail: </label><br>
-            <input type="email" th:field="*{email}"/>
-            <!--<p th:each="error : ${#fields.errors('email')}"-->
-            <!--th:text="${error}">Validation error</p>-->
-        </div>
-        <div>
-            <label th:text="#{label.login.password}">Password: </label><br>
-            <input type="password" th:field="*{password}"/>
-            <!--<p th:each="error : ${#fields.errors('password')}"-->
-            <!--th:text="${error}">Validation error</p>-->
-        </div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:th="http://www.thymeleaf.org">
 
-        <button type="submit" th:text="#{label.form.submit}">Log in</button>
+<head>
+    <title>Spring Security Tutorial</title>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<form th:action="@{/registration}" method="get">
+    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
+</form>
+
+<div class="container">
+    <form th:action="@{/login}" method="POST" class="form-signin">
+        <h3 class="form-signin-heading" th:text="Welcome"></h3>
+        <br/>
+
+        <input type="text" id="email" role="email"  th:placeholder="Email"
+               class="form-control" /> <br/>
+        <input type="password"  th:placeholder="Password"
+               id="password" role="password" class="form-control" /> <br />
+
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" role="Submit" value="Login" type="Submit" th:text="Login"></button>
     </form>
 </div>
-
 </body>
 </html>

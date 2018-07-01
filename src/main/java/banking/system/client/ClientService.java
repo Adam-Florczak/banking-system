@@ -22,4 +22,8 @@ public interface ClientService {
     VerificationToken getVerificationToken(String token);
 
     void saveRegisteredClient(Client client);
+
+    Client findClientByEmail(String email);
+
+    Client saveClient(ClientCreateDTO clientDTO);
 }

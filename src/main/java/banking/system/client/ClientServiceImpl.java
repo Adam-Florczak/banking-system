@@ -4,8 +4,10 @@ package banking.system.client;
 import banking.system.registration.VerificationToken;
 import banking.system.registration.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -15,12 +17,17 @@ public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
     private AddressRepository addressRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository,
+                             PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.clientRepository = clientRepository;
         this.addressRepository = addressRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -79,4 +86,25 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
     }
 
+    @Override
+    public Client findClientByEmail(String email) {
+        return clientRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public Client saveClient(ClientCreateDTO clientDTO) {
+        Client client = new Client();
+
+        client.setEmail(clientDTO.getEmail());
+        client.setFirstName(clientDTO.getFirstName());
+        client.setLastName(clientDTO.getLastName());
+        client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        client.setAddress(addressRepository.findById(clientDTO.getAddressId()).orElse(null));
+        Role role = roleRepository.findByRole("ADMIN");
+        client.setRoles(new HashSet<Role>(Arrays.asList(role)));
+      // TODO client veryfication through e-mail
+        client.setEnabled(true);
+
+        return clientRepository.save(client);
+    }
 }
