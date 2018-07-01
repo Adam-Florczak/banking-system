@@ -58,6 +58,7 @@ h1 {
     padding: 10px;
     color: #00171F;
     text-decoration: underline;
+    text-align: center;
 }
 
 body {
@@ -97,6 +98,10 @@ button {
 input {
     border-radius: 5px;
 
+}
+
+nav li {
+    border: 1px white;
 }
 
 

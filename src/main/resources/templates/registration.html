@@ -1,88 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="form">
-    <h1>Sign up</h1>
-    <form autocomplete="off" action="#" th:action="@{/registration}"
-          th:object="${client}" method="POST" enctype="utf8">
+    <h1 th:text="#{label.form.title}">Registration</h1>
+    <form th:action="/newclient" th:object="${client}" method="post" enctype="utf8">
         <div>
-
-            <label>First Name</label><br>
-            <input type="text" th:field="*{firstName}"/>
-            <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                   class="validation-message"></label>
+            <label th:text="#{label.client.firstName}">First name: </label><br>
+            <input th:field="*{firstName}"/>
+            <!--<p th:each="error: ${#fields.errors('firstName')}"-->
+               <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label>Last Name</label><br>
+            <label th:text="#{label.client.lastName}">Last name: </label><br>
             <input th:field="*{lastName}"/>
-            <label   th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                     class="validation-message"></label>
-        </div>
-        <!--<div>
-            <label>Country: </label><br>
-            <input type="text" th:field="*{address.country}"/>
-            <label   th:if="${#fields.hasErrors('address.country')}" th:errors="*{address.country}"
-                     class="validation-message"></label>
+            <!--<p th:each="error : ${#fields.errors('lastName')}"-->
+               <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label>City: </label><br>
-            <input type="text" th:field="*{address.city}"/>
-            <label   th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>Zip code: </label><br>
-            <input type="text" th:field="*{address.zipCode}"/>
-            <label   th:if="${#fields.hasErrors('address.zipCode')}" th:errors="*{address.zipCode}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>Street: </label><br>
-            <input type="text" th:field="*{address.street}"/>
-            <<label   th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
-                      class="validation-message"></label>
-        </div>
-        <div>
-            <label>Number: </label><br>
-            <input type="number" th:field="*{address.number}"/>
-            <label   th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}"
-                     class="validation-message"></label>
-        </div>-->
-        <div>
-            <label>E-mail: </label><br>
+
+            <label th:text="#{label.client.email}">E-mail: </label><br>
             <input type="email" th:field="*{email}"/>
-            <label   th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                     class="validation-message"></label>
+            <!--<p th:each="error : ${#fields.errors('email')}"-->
+               <!--th:text="${error}">Validation error</p>-->
         </div>
         <div>
-            <label>Password: </label><br>
+            <label th:text="#{label.client.password}">Password: </label><br>
+
             <input type="password" th:field="*{password}"/>
-            <label   th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                     class="validation-message"></label>
+            <!--<p th:each="error : ${#fields.errors('password')}"-->
+               <!--th:text="${error}">Validation error</p>-->
         </div>
-      <!--  <div>
-            <label>Confirm password: </label><br>
+        <div>
+            <label th:text="#{label.client.confirmPass}">Confirm password: </label><br>
             <input type="password" th:field="*{matchingPassword}"/>
-            <label   th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"
-                     class="validation-message"></label>
-        </div>-->
-        <button>Submit</button>
+        </div>
+        <button type="submit" th:text="#{label.form.submit}">Submit</button>
     </form>
-
-
-
-
-
-
-
 </div>
+
 </body>
 </html>
