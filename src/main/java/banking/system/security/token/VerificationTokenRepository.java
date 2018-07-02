@@ -1,4 +1,4 @@
-package banking.system.registration;
+package banking.system.security.token;
 
 import banking.system.client.Client;
 import org.springframework.data.jpa.repository.JpaRepository;

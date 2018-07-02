@@ -1,6 +1,5 @@
 package banking.system.client;
 
-import banking.system.registration.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

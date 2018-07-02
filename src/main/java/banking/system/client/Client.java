@@ -38,27 +38,17 @@ public class Client extends BaseEntity {
     @JoinTable(name = "client_role", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    private int active;
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
-
     public Client() {
+        this.enabled = false;
     }
 
-    public Client(String email, Set<Account> accountSet, String firstName, String lastName, Address address, String password, int active) {
+    public Client(String email, Set<Account> accountSet, String firstName, String lastName, Address address, String password) {
         this.email = email;
         this.accountSet = accountSet;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.password = password;
-        this.active = active;
         this.enabled = false;
     }
 

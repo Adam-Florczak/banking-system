@@ -1,7 +1,7 @@
 package banking.system.client;
 
 
-import banking.system.registration.VerificationToken;
+import banking.system.security.token.VerificationToken;
 
 import java.util.Set;
 
@@ -11,9 +11,9 @@ public interface ClientService {
 
     Set<Client> findAll();
 
-    void createVerificationToken(Client client, String token);
+    void createVerificationToken(Client client);
 
-    Client registerNewUserAccount(ClientCreateDTO clientCreateDTO);
+    Client registerNewUserAccount(ClientRegisterDTO clientRegisterDTO);
 
     Client createAddress(ClientCreateDTO clientCreateDTO);
 
@@ -26,4 +26,8 @@ public interface ClientService {
     Client findClientByEmail(String email);
 
     Client saveClient(ClientCreateDTO clientDTO);
+
+    Client findByToken(String token);
+
+    Client saveAfterRegister(Client client);
 }
