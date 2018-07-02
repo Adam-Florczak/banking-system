@@ -4,12 +4,11 @@ import banking.system.client.Client;
 import banking.system.client.ClientRepository;
 import banking.system.common.Currency;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -20,10 +19,13 @@ import java.util.Optional;
 public class AccountServiceImplTest {
 
     @Autowired
-    AccountRepository repository;
+    AccountRepository accountRepository;
 
     @Autowired
     ClientRepository clientRepository;
+
+    @Autowired
+    AccountServiceImpl accountServiceImpl;
 
 
     private Account prepareAccount() {
@@ -31,7 +33,7 @@ public class AccountServiceImplTest {
         account.setType(AccountType.PERSONAL);
         account.setCurrency(Currency.PLN);
         account.setOwner(clientRepository.save(prepareClient()));
-        account.setNumber("1234");
+        account.setNumber("98237");
         account.setBalance(BigDecimal.ZERO);
         return account;
     }
@@ -42,15 +44,11 @@ public class AccountServiceImplTest {
         client.setPassword("pass");
         return client;
     }
-//
-//    @Test
-//    public void contextLoads() {
-//    }
 
     @Test
     public void givenNewAccountEntity_WhenSavedAndRetrievingFromDb_ThenOk() {
-        repository.save(prepareAccount());
-        Optional<Account> found = repository.findById(1L);
+        accountRepository.save(prepareAccount());
+        Optional<Account> found = accountRepository.findById(1L);
 
         Assert.assertTrue(found.isPresent());
     }
