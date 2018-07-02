@@ -97,7 +97,7 @@ public class RegistrationController {
             model.addAttribute("message", messageValue);
             return "redirect:/badUser.html?lang=" + locale.getLanguage();
         }
-        client.setEnabled(true);
+//        client.setEnabled(true);
         clientService.saveRegisteredClient(client);
         return "redirect:/layout.html?lang=" + request.getLocale().getLanguage();
     }

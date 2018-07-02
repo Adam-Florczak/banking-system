@@ -103,7 +103,7 @@ public class ClientServiceImpl implements ClientService {
         Role role = roleRepository.findByRole("ADMIN");
         client.setRoles(new HashSet<Role>(Arrays.asList(role)));
       // TODO client veryfication through e-mail
-        client.setEnabled(true);
+        client.setActive(1);
 
         return clientRepository.save(client);
     }

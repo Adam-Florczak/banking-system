@@ -15,6 +15,10 @@ public class ClientCreateDTO {
 
     private Set<Role> roles;
 
+    private boolean enabled;
+
+
+
     public ClientCreateDTO() {
     }
 
@@ -25,6 +29,7 @@ public class ClientCreateDTO {
         this.password=client.getPassword();
         this.addressId=client.getAddress().getId();
         this.roles=client.getRoles();
+        this.enabled =client.isEnabled();
     }
 
     public String getEmail() {
@@ -74,4 +79,12 @@ public class ClientCreateDTO {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+ /*   public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }*/
 }
