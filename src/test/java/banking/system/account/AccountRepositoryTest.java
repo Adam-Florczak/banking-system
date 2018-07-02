@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -16,16 +15,13 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class AccountServiceImplTest {
+public class AccountRepositoryTest {
 
     @Autowired
     AccountRepository accountRepository;
 
     @Autowired
     ClientRepository clientRepository;
-
-    @Autowired
-    AccountServiceImpl accountServiceImpl;
 
 
     private Account prepareAccount() {
@@ -51,6 +47,14 @@ public class AccountServiceImplTest {
         Optional<Account> found = accountRepository.findById(1L);
 
         Assert.assertTrue(found.isPresent());
+    }
+
+    @Test
+    public void givenAccountEntity_WhenDeletedAndRetrievingFromDb_ThenNotFound() {
+        accountRepository.save(prepareAccount());
+        accountRepository.delete(1L);
+        Optional<Account> found = accountRepository.findById(1L);
+        Assert.assertFalse(found.isPresent());
     }
 
 
