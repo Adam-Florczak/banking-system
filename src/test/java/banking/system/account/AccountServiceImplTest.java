@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -24,18 +25,17 @@ public class AccountServiceImplTest {
     @Autowired
     ClientRepository clientRepository;
 
-    @Autowired
-    AccountServiceImpl accountServiceImpl;
 
+    private AccountCreateDTO prepareAccountDto(AccountServiceImpl accountService) {
 
-    private Account prepareAccount() {
-        Account account = new Account();
-        account.setType(AccountType.PERSONAL);
-        account.setCurrency(Currency.PLN);
-        account.setOwner(clientRepository.save(prepareClient()));
-        account.setNumber("98237");
-        account.setBalance(BigDecimal.ZERO);
-        return account;
+        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
+        accountCreateDTO.setNumber(accountService.generateAccountNumber());
+        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
+        accountCreateDTO.setCurrency(Currency.PLN);
+        accountCreateDTO.setInterest(BigDecimal.ZERO);
+        accountCreateDTO.setProvision(BigDecimal.ZERO);
+        accountCreateDTO.setAccountType(AccountType.PERSONAL);
+        return accountCreateDTO;
     }
 
     private Client prepareClient() {
@@ -47,10 +47,17 @@ public class AccountServiceImplTest {
 
     @Test
     public void givenNewAccountEntity_WhenSavedAndRetrievingFromDb_ThenOk() {
-        accountRepository.save(prepareAccount());
-        Optional<Account> found = accountRepository.findById(1L);
 
-        Assert.assertTrue(found.isPresent());
+        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
+
+        AccountCreateDTO accountCreateDTO = prepareAccountDto(accountService);
+
+        accountService.createAccount(accountCreateDTO);
+
+        Account account = accountService.findById(1L);
+
+        Assert.assertNotNull(account);
+
     }
 
 
