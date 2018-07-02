@@ -1,5 +1,7 @@
 package banking.system.client;
 
+import java.util.Set;
+
 public class ClientCreateDTO {
     private String email;
 
@@ -11,6 +13,12 @@ public class ClientCreateDTO {
 
     private Long addressId;
 
+    private Set<Role> roles;
+
+    private boolean enabled;
+
+
+
     public ClientCreateDTO() {
     }
 
@@ -20,6 +28,8 @@ public class ClientCreateDTO {
         this.lastName=client.getLastName();
         this.password=client.getPassword();
         this.addressId=client.getAddress().getId();
+        this.roles=client.getRoles();
+        this.enabled =client.isEnabled();
     }
 
     public String getEmail() {
@@ -62,4 +72,19 @@ public class ClientCreateDTO {
         this.addressId = addressId;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+ /*   public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }*/
 }
