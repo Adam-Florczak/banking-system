@@ -4,9 +4,7 @@ import banking.system.client.Client;
 import banking.system.client.ClientCreateDTO;
 import banking.system.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,15 +24,10 @@ public class SecurityController {
 
     private ClientService clientService;
 
-    private ApplicationEventPublisher eventPublisher;
-
-    private MessageSource messages;
-
     @Autowired
-    public SecurityController(ClientService clientService, ApplicationEventPublisher eventPublisher, @Qualifier("messageSource") MessageSource messages) {
+    public SecurityController(ClientService clientService) {
         this.clientService = clientService;
-        this.eventPublisher = eventPublisher;
-        this.messages = messages;
+
     }
 
     @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
