@@ -17,17 +17,15 @@ public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
     private AddressRepository addressRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
     public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository,
-                             PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+                              PasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -100,10 +98,6 @@ public class ClientServiceImpl implements ClientService {
         client.setLastName(clientDTO.getLastName());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
         client.setAddress(addressRepository.findById(clientDTO.getAddressId()).orElse(null));
-        Role role = roleRepository.findByRole("ADMIN");
-        client.setRoles(new HashSet<Role>(Arrays.asList(role)));
-      // TODO client veryfication through e-mail
-        client.setActive(1);
 
         return clientRepository.save(client);
     }
