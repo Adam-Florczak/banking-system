@@ -62,7 +62,7 @@ h1 {
 
 body {
     /*background-color: #A9BCD0;*/
-    background-image: url("img/green.jpg");
+    background-image: url("../img/green.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
