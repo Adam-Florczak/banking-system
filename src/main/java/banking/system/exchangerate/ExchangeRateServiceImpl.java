@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 
-    private final BigDecimal RATE = new BigDecimal("0.05");
     private ExchangeRateRepository repository;
 
     @Autowired
@@ -19,8 +18,10 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     public ExchangeRate findLast() {
-        return repository.findOneByCreatedAtOrderByCreatedAtDesc();
+//        return repository.findOneOrderByCreatedAtDesc();
+    return null;
     }
+
 
     @Override
     public ExchangeRate createCurrent() {
