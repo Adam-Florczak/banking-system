@@ -93,8 +93,8 @@ public class SecurityController {
         Client client = clientService.findByToken(token);
         client.setEnabled(true);
         clientService.saveRegisteredClient(client);
-        modelAndView.addObject("message", "Account activated");
-        modelAndView.setViewName("registerConfirm");
+        modelAndView.addObject("activateMessage", "Account activated");
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 
