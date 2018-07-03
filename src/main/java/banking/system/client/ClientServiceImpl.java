@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -18,15 +17,13 @@ import java.util.Set;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-    private AddressRepository addressRepository;
     private PasswordEncoder passwordEncoder;
     private JavaMailSender mailSender;
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
         this.clientRepository = clientRepository;
-        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
         this.tokenRepository = tokenRepository;
@@ -55,22 +52,6 @@ public class ClientServiceImpl implements ClientService {
         tokenRepository.save(verificationToken);
     }
 
-
-   @Override
-    public Client createAddress(ClientCreateDTO clientCreateDTO) {
-        Client client=new Client();
-        Optional<Address> optionalAddress=addressRepository.findById(clientCreateDTO.getAddressId());
-        if(optionalAddress.isPresent()){
-            client.setAddress(optionalAddress.get());
-        }
-        else throw new RuntimeException("No address found");
-        client.setEmail(clientCreateDTO.getEmail());
-        client.setFirstName(clientCreateDTO.getFirstName());
-        client.setLastName(clientCreateDTO.getLastName());
-        client.setPassword(clientCreateDTO.getPassword());
-        return clientRepository.save(client);
-    }
-
     @Override
     public void deleteOneById(Long id) {
         clientRepository.delete(id);
@@ -93,31 +74,50 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client saveClient(ClientCreateDTO clientDTO) {
+        Client client = createClientFromDTO(clientDTO);
+
+        clientRepository.save(client);
+        Client client2 = clientRepository.findByEmail(client.getEmail()).orElseThrow(RuntimeException::new);
+        createVerificationToken(client2);
+
+        sendVerificationEmail(client2);
+        return client;
+    }
+
+    private Client createClientFromDTO(ClientCreateDTO clientDTO) {
         Client client = new Client();
 
         client.setEmail(clientDTO.getEmail());
         client.setFirstName(clientDTO.getFirstName());
         client.setLastName(clientDTO.getLastName());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
-        client.setAddress(addressRepository.findById(clientDTO.getAddressId()).orElse(null));
 
-        clientRepository.save(client);
-        Client client2 = clientRepository.findByEmail(client.getEmail()).orElseThrow(RuntimeException::new);
-        createVerificationToken(client2);
+        Address address = new Address();
 
-        sendEmail(client2);
+        address.setCountry(clientDTO.getCountry());
+        address.setCity(clientDTO.getCity());
+        address.setStreet(clientDTO.getStreet());
+        address.setZipCode(clientDTO.getZipCode());
+        address.setNumber(clientDTO.getNumber());
+
+        client.setAddress(address);
+
         return client;
     }
 
-    private void sendEmail(Client client){
+    private void sendVerificationEmail(Client client){
         String email = client.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl = "http://localhost:8080/registerConfirm?token=" + client.getUuid();
 
+        sendMail(email, subject, confirmationUrl);
+    }
+
+    private void sendMail(String email, String subject, String text) {
         SimpleMailMessage sendMail = new SimpleMailMessage();
         sendMail.setTo(email);
         sendMail.setSubject(subject);
-        sendMail.setText(confirmationUrl);
+        sendMail.setText(text);
         mailSender.send(sendMail);
     }
 

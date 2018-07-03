@@ -13,8 +13,6 @@ public interface ClientService {
 
     void createVerificationToken(Client client);
 
-    Client createAddress(ClientCreateDTO clientCreateDTO);
-
     void deleteOneById(Long id);
 
     VerificationToken getVerificationToken(String token);
