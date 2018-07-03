@@ -19,16 +19,14 @@ public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
     private AddressRepository addressRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private JavaMailSender mailSender;
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
         this.clientRepository = clientRepository;
         this.addressRepository = addressRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
         this.tokenRepository = tokenRepository;
@@ -57,10 +55,6 @@ public class ClientServiceImpl implements ClientService {
         tokenRepository.save(verificationToken);
     }
 
-    @Override
-    public Client registerNewUserAccount(ClientRegisterDTO clientRegisterDTO) {
-        return null;
-    }
 
    @Override
     public Client createAddress(ClientCreateDTO clientCreateDTO) {
@@ -106,8 +100,6 @@ public class ClientServiceImpl implements ClientService {
         client.setLastName(clientDTO.getLastName());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
         client.setAddress(addressRepository.findById(clientDTO.getAddressId()).orElse(null));
-        Role role = roleRepository.findByRole("ADMIN");
-        client.setRoles(new HashSet<Role>(Arrays.asList(role)));
 
         clientRepository.save(client);
         Client client2 = clientRepository.findByEmail(client.getEmail()).orElseThrow(RuntimeException::new);
@@ -134,8 +126,5 @@ public class ClientServiceImpl implements ClientService {
         return tokenRepository.findByToken(token).getClient();
     }
 
-    @Override
-    public Client saveAfterRegister(Client client) {
-        return clientRepository.save(client);
-    }
+
 }

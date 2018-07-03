@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
              xmlns:th="http://www.thymeleaf.org">
-<@
 
 <head>
     <title>Spring Security Tutorial</title>
@@ -17,15 +16,17 @@
 </form>
 
 <div class="container">
-    <form th:action="@{/login}" method="POST" class="form-signin">
+    <form autocomplete="off" action="#" th:action="@{/login}" method="POST" class="form-signin"
+                >
         <h3 class="form-signin-heading" th:text="Welcome"></h3>
         <br/>
 
-        <input type="text" id="email" role="email"  th:placeholder="Email"
-               class="form-control" /> <br/>
-        <input type="password"  th:placeholder="Password"
-               id="password" role="password" class="form-control" /> <br />
+        <input name="email" th:type="text"  th:placeholder="Email"/> <br/>
+        <input name="password" th:type="password"  th:placeholder="Password" /> <br />
 
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20px; color: #FF1C19;">Email or Password invalid, please verify</p>
+        </div>
         <button class="btn btn-lg btn-primary btn-block" role="Submit" value="Login" type="Submit" th:text="Login"></button>
 
         <span th:utext="${activateMessage}"></span>
