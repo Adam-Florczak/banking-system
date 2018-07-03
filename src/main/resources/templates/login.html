@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Log in</title>
@@ -8,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="form">
+<div class="single-form">
     <h1 th:text="#{label.form.title}">Log in to Your account</h1>
     <form th:action="/login" th:object="${login}" method="post" enctype="utf8">
         <div>

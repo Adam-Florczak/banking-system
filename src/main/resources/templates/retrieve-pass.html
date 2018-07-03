@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
 <meta charset="UTF-8">
 <title>Retrieve Password</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
@@ -8,7 +10,7 @@
 </head>
 <body>
 <h1 th:text="#{label.form.title}">Retrieve password</h1>
-<div class="form">
+<div class="single-form">
     <form th:action="/retrievePass" th:object="${client}" method="post" enctype="utf8">
             <label th:text="#{label.client.email}">E-mail: </label><br>
             <input type="email" th:field="*{email}"/><br>
