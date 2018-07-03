@@ -13,8 +13,6 @@ public interface ClientService {
 
     void createVerificationToken(Client client);
 
-    Client registerNewUserAccount(ClientRegisterDTO clientRegisterDTO);
-
     Client createAddress(ClientCreateDTO clientCreateDTO);
 
     void deleteOneById(Long id);
@@ -29,5 +27,4 @@ public interface ClientService {
 
     Client findByToken(String token);
 
-    Client saveAfterRegister(Client client);
 }

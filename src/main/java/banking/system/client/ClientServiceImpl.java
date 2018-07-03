@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
         this.clientRepository = clientRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
@@ -55,10 +55,6 @@ public class ClientServiceImpl implements ClientService {
         tokenRepository.save(verificationToken);
     }
 
-    @Override
-    public Client registerNewUserAccount(ClientCreateDTO clientCreateDTO) {
-        return null;
-    }
 
    @Override
     public Client createAddress(ClientCreateDTO clientCreateDTO) {
@@ -130,8 +126,5 @@ public class ClientServiceImpl implements ClientService {
         return tokenRepository.findByToken(token).getClient();
     }
 
-    @Override
-    public Client saveAfterRegister(Client client) {
-        return clientRepository.save(client);
-    }
+
 }
