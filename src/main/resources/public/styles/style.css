@@ -61,28 +61,42 @@ h1 {
 }
 
 body {
-    background-color: #A9BCD0;
+    /*background-color: #A9BCD0;*/
+    background-image: url("../img/green.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 /* Registration form */
 
-label, button {
-    font-family: 'Helvetica', sans-serif;
-    font-size: 15px;
-    margin: 10px;
-    padding: 5px;
-    background-color: #D8DBE2;
-    border-radius: 5px;
-
-}
-
-.reg-form {
+.form {
     text-align: center;
 }
 
-.reg-form div {
+.form div {
     margin: 5px;
     padding: 5px;
     color: #00171F;
 
 }
+
+label, button {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 13px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #B2FF9E;
+    font-size: 15px;
+}
+
+input {
+    border-radius: 5px;
+
+}
+
+

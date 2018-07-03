@@ -1,4 +1,4 @@
-package banking.system.registration;
+package banking.system.security.token;
 
 import banking.system.client.Client;
 
@@ -31,6 +31,18 @@ public class VerificationToken {
     }
 
     public VerificationToken() {
+
+    }
+
+    public VerificationToken(String token) {
+        this.token = token;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+    public VerificationToken(String token, Client client) {
+        this.token = token;
+        this.client = client;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
     public static int getEXPIRATION() {

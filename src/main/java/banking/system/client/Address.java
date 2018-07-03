@@ -12,7 +12,9 @@ public class Address extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            orphanRemoval = true)
     private Client client;
 
     @NotNull

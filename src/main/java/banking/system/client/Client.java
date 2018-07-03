@@ -33,7 +33,13 @@ public class Client extends BaseEntity {
     @NotNull
     private String password;
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Client() {
+        this.enabled = false;
     }
 
     public Client(String email, Set<Account> accountSet, String firstName, String lastName, Address address, String password) {
@@ -105,4 +111,6 @@ public class Client extends BaseEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+
 }
