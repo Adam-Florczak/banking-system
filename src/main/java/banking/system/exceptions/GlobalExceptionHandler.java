@@ -39,6 +39,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<String>("You don't have enough money",HttpStatus.I_AM_A_TEAPOT);
     }
 
+
     @ExceptionHandler(PastTransactionException.class)
     @ResponseBody
     public ResponseEntity<String> handlePastTransactionException(PastTransactionException e){
@@ -56,6 +57,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNegativeAmountException(NegativeAmountException e){
         return new ResponseEntity<String>("You don't have enough money",HttpStatus.BAD_REQUEST);
     }
-
-
 }

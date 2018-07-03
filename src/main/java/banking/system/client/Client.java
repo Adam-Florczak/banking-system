@@ -13,7 +13,6 @@ public class Client extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
     private Long id;
 
     @NotNull
@@ -34,31 +33,22 @@ public class Client extends BaseEntity {
     @NotNull
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "client_role", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
 
-    private int active;
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Client() {
+        this.enabled = false;
     }
 
-    public Client(String email, Set<Account> accountSet, String firstName, String lastName, Address address, String password, int active) {
+    public Client(String email, Set<Account> accountSet, String firstName, String lastName, Address address, String password) {
         this.email = email;
         this.accountSet = accountSet;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.password = password;
-        this.active = active;
         this.enabled = false;
     }
 
@@ -120,14 +110,6 @@ public class Client extends BaseEntity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
 

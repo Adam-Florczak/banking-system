@@ -20,6 +20,8 @@ public class AccountServiceImpl implements AccountService {
         this.repository = repository;
     }
 
+    public AccountServiceImpl() {
+    }
 
     @Override
     public Account findById(Long id) {
@@ -56,6 +58,7 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
+        account.setBalance(BigDecimal.ZERO);
         account.setType(accountCreateDTO.getAccountType());
         account.setInterest(accountCreateDTO.getInterest());
         account.setProvision(accountCreateDTO.getProvision());

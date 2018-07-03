@@ -1,35 +1,50 @@
 package banking.system.client;
 
-import java.util.Set;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 
 public class ClientCreateDTO {
+
+    @NotNull
+    @NotEmpty
     private String email;
 
+    @NotNull
+    @NotEmpty
     private String firstName;
 
+    @NotNull
+    @NotEmpty
     private String lastName;
 
+    @NotNull
+    @NotEmpty
     private String password;
+    private String matchingPassword;
 
-    private Long addressId;
+    @NotNull
+    @NotEmpty
+    private String country;
 
-    private Set<Role> roles;
+    @NotNull
+    @NotEmpty
+    private String city;
 
-    private boolean enabled;
+    @NotNull
+    @NotEmpty
+    private String zipCode;
 
+    @NotNull
+    @NotEmpty
+    private String street;
 
+    @NotNull
+    @NotEmpty
+    private String number;
 
     public ClientCreateDTO() {
-    }
-
-    public ClientCreateDTO(Client client){
-        this.email=client.getEmail();
-        this.firstName=client.getFirstName();
-        this.lastName=client.getLastName();
-        this.password=client.getPassword();
-        this.addressId=client.getAddress().getId();
-        this.roles=client.getRoles();
-        this.enabled =client.isEnabled();
     }
 
     public String getEmail() {
@@ -64,27 +79,51 @@ public class ClientCreateDTO {
         this.password = password;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public String getCountry() {
+        return country;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getCity() {
+        return city;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setCity(String city) {
+        this.city = city;
     }
 
- /*   public boolean isEnabled() {
-        return enabled;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }*/
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 }

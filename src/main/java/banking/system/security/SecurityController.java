@@ -4,12 +4,17 @@ import banking.system.client.Client;
 import banking.system.client.ClientCreateDTO;
 import banking.system.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -20,8 +25,9 @@ public class SecurityController {
     private ClientService clientService;
 
     @Autowired
-    public SecurityController(ClientService clientService){
+    public SecurityController(ClientService clientService) {
         this.clientService = clientService;
+
     }
 
     @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
@@ -42,7 +48,9 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid ClientCreateDTO client, BindingResult bindingResult) {
+    public ModelAndView createNewUser(@Valid ClientCreateDTO client,
+                                      BindingResult bindingResult,
+                                      WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         Client clientExists = clientService.findClientByEmail(client.getEmail());
         if (clientExists != null) {
@@ -70,6 +78,17 @@ public class SecurityController {
         modelAndView.addObject("userName", "Welcome " + client.getFirstName() + " " + client.getLastName() + " (" + client.getEmail() + ")");
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("admin/home");
+        return modelAndView;
+    }
+
+    @GetMapping("/registerConfirm")
+    public ModelAndView confirmRegister(@RequestParam("token") String token){
+        ModelAndView modelAndView = new ModelAndView();
+        Client client = clientService.findByToken(token);
+        client.setEnabled(true);
+        clientService.saveRegisteredClient(client);
+        modelAndView.addObject("activateMessage", "Account activated");
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 

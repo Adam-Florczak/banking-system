@@ -1,13 +1,14 @@
 package banking.system.client;
 
 
-import banking.system.registration.VerificationToken;
-import banking.system.registration.VerificationTokenRepository;
+import banking.system.security.token.VerificationToken;
+import banking.system.security.token.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -16,18 +17,16 @@ import java.util.Set;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-    private AddressRepository addressRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JavaMailSender mailSender;
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository,
-                             PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
         this.clientRepository = clientRepository;
-        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
+        this.mailSender = mailSender;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -47,28 +46,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void createVerificationToken(Client client, String token) {
-
-    }
-
-    @Override
-    public Client registerNewUserAccount(ClientCreateDTO clientCreateDTO) {
-        return null;
-    }
-
-   @Override
-    public Client createAddress(ClientCreateDTO clientCreateDTO) {
-        Client client=new Client();
-        Optional<Address> optionalAddress=addressRepository.findById(clientCreateDTO.getAddressId());
-        if(optionalAddress.isPresent()){
-            client.setAddress(optionalAddress.get());
-        }
-        else throw new RuntimeException("No address found");
-        client.setEmail(clientCreateDTO.getEmail());
-        client.setFirstName(clientCreateDTO.getFirstName());
-        client.setLastName(clientCreateDTO.getLastName());
-        client.setPassword(clientCreateDTO.getPassword());
-        return clientRepository.save(client);
+    public void createVerificationToken(Client client) {
+        String token = client.getUuid();
+        VerificationToken verificationToken = new VerificationToken(token, client);
+        tokenRepository.save(verificationToken);
     }
 
     @Override
@@ -93,18 +74,57 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client saveClient(ClientCreateDTO clientDTO) {
+        Client client = createClientFromDTO(clientDTO);
+
+        clientRepository.save(client);
+        Client client2 = clientRepository.findByEmail(client.getEmail()).orElseThrow(RuntimeException::new);
+        createVerificationToken(client2);
+
+        sendVerificationEmail(client2);
+        return client;
+    }
+
+    private Client createClientFromDTO(ClientCreateDTO clientDTO) {
         Client client = new Client();
 
         client.setEmail(clientDTO.getEmail());
         client.setFirstName(clientDTO.getFirstName());
         client.setLastName(clientDTO.getLastName());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
-        client.setAddress(addressRepository.findById(clientDTO.getAddressId()).orElse(null));
-        Role role = roleRepository.findByRole("ADMIN");
-        client.setRoles(new HashSet<Role>(Arrays.asList(role)));
-      // TODO client veryfication through e-mail
-        client.setActive(1);
 
-        return clientRepository.save(client);
+        Address address = new Address();
+
+        address.setCountry(clientDTO.getCountry());
+        address.setCity(clientDTO.getCity());
+        address.setStreet(clientDTO.getStreet());
+        address.setZipCode(clientDTO.getZipCode());
+        address.setNumber(clientDTO.getNumber());
+
+        client.setAddress(address);
+
+        return client;
     }
+
+    private void sendVerificationEmail(Client client){
+        String email = client.getEmail();
+        String subject = "Registration Confirmation";
+        String confirmationUrl = "http://localhost:8080/registerConfirm?token=" + client.getUuid();
+
+        sendMail(email, subject, confirmationUrl);
+    }
+
+    private void sendMail(String email, String subject, String text) {
+        SimpleMailMessage sendMail = new SimpleMailMessage();
+        sendMail.setTo(email);
+        sendMail.setSubject(subject);
+        sendMail.setText(text);
+        mailSender.send(sendMail);
+    }
+
+    @Override
+    public Client findByToken(String token){
+        return tokenRepository.findByToken(token).getClient();
+    }
+
+
 }
