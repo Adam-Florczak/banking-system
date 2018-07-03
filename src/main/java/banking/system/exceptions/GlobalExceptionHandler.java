@@ -38,4 +38,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNoEnoughMoneyException(NoEnoughMoneyException e){
         return new ResponseEntity<String>("You don't have enough money",HttpStatus.I_AM_A_TEAPOT);
     }
+
+
+    @ExceptionHandler(PastTransactionException.class)
+    @ResponseBody
+    public ResponseEntity<String> handlePastTransactionException(PastTransactionException e){
+        return new ResponseEntity<String>("Choose the correct date",HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotEmptyTitleFieldException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleNotEmptyTitleFieldException(NotEmptyTitleFieldException e){
+        return new ResponseEntity<String>(" Enter the title of the transfer",HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NegativeAmountException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleNegativeAmountException(NegativeAmountException e){
+        return new ResponseEntity<String>("You don't have enough money",HttpStatus.BAD_REQUEST);
+    }
 }
