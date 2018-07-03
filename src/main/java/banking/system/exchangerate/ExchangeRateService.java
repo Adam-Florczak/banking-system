@@ -1,6 +1,6 @@
 package banking.system.exchangerate;
 
-public interface exchangeRateService {
+public interface ExchangeRateService {
 
     ExchangeRate findLast();
     ExchangeRate createCurrent();
