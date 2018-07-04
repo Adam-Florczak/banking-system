@@ -95,12 +95,14 @@ public class TransactionServiceImpl implements TransactionService {
         BigDecimal transactionToToRate=BigDecimal.ONE;
         if(differentFromAndTransactionCurrency){
             fromToTransactionRate=exchangeRateRepository
-                    .findFirstByFromAndToOrderByCreatedAtDesc(from.getCurrency(),transactionDTO.getCurrency())
+                    .findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(from.getCurrency(),
+                            transactionDTO.getCurrency())
                     .getRate();
         }
         if(differentTransactionAndToCurrency){
             transactionToToRate=exchangeRateRepository
-                    .findFirstByFromAndToOrderByCreatedAtDesc(transactionDTO.getCurrency(),to.getCurrency())
+                    .findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(transactionDTO.getCurrency(),
+                            to.getCurrency())
                     .getRate();
         }
 
