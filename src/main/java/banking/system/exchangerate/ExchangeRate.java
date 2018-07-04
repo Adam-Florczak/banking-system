@@ -1,35 +1,65 @@
-//package banking.system.exchangerate;
-//
-//import banking.system.common.BaseEntity;
-//import org.springframework.scheduling.annotation.EnableScheduling;
-//
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import java.math.BigDecimal;
-//
-//@Entity
-//public class ExchangeRate extends BaseEntity {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+package banking.system.exchangerate;
+
+import banking.system.common.BaseEntity;
+import banking.system.common.Currency;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+public class ExchangeRate extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private Currency from;
+
+    @Enumerated(EnumType.STRING)
+    private Currency to;
+
+    private BigDecimal rate;
 //
 //    private BigDecimal eur;
 //    private BigDecimal chf;
 //    private BigDecimal gbp;
 //    private BigDecimal usd;
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public BigDecimal getEur() {
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Currency getFrom() {
+        return from;
+    }
+
+    public void setFrom(Currency from) {
+        this.from = from;
+    }
+
+    public Currency getTo() {
+        return to;
+    }
+
+    public void setTo(Currency to) {
+        this.to = to;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    //    public BigDecimal getEur() {
 //        return eur;
 //    }
 //
@@ -60,15 +90,6 @@
 //    public void setUsd(BigDecimal usd) {
 //        this.usd = usd;
 //    }
-//
-//    @Override
-//    public String toString() {
-//        return "\nCREATED: " + this.getCreatedAt() +
-//                "\nEUR: " + this.eur +
-//                "\nGBP: " + this.gbp +
-//                "\nCHF: " + this.chf +
-//                "\nUSD: " + this.usd;
-//    }
-//}
-//
-//
+}
+
+
