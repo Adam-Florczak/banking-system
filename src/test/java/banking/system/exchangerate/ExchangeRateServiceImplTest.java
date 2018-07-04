@@ -32,7 +32,7 @@ public class ExchangeRateServiceImplTest {
         for(Currency from : Currency.values()){
             for(Currency to: Currency.values()){
                 if(!from.equals(to)){
-                    Assert.assertNotNull(repository.findFirstByFromAndToOrderByCreatedAtDesc(from,to));
+                    Assert.assertNotNull(repository.findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(from,to));
                 }
             }
         }

@@ -19,7 +19,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     public ExchangeRate findLast(Currency from, Currency to) {
-        return repository.findFirstByFromAndToOrderByCreatedAtDesc(from, to);
+        return repository.findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(from, to);
     }
 
     @Override
