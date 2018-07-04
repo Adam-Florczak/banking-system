@@ -53,6 +53,13 @@ public class ExchangeRate extends BaseEntity {
         this.rate = rate;
     }
 
+    @Override
+    public String toString() {
+        return "\nID: " + id +
+                "\nfrom: " + fromCurrency.name() +
+                "\nto: " + toCurrency.name() +
+                "\nratio: " + rate.toString();
+    }
 }
 
 
