@@ -1,6 +1,6 @@
-
 package banking.system.exchangerate;
 
+import banking.system.common.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,33 +18,30 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public ExchangeRate findLast() {
-//        return repository.findOneOrderByCreatedAtDesc();
-    return null;
+    public ExchangeRate findLast(Currency from, Currency to) {
+        return repository.findFirstByFromAndToOrderByCreatedAtDesc(from, to);
     }
 
-
     @Override
-    public ExchangeRate createCurrent() {
+    public ExchangeRate createCurrent(Currency from, Currency to) {
         CurrencyApi api = new CurrencyApi();
         ExchangeRate rate = new ExchangeRate();
-
         try {
-            rate.setEur(api.getRatio("EUR"));
-            rate.setGbp(api.getRatio("GBP"));
-            rate.setUsd(api.getRatio("USD"));
-            rate.setChf(api.getRatio("CHF"));
+            rate.setRate(api.getRatio(from.name(), to.name()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return repository.save(rate);
-
-
     }
 
-
-
+    @Override
+    public void updateRates() {
+        for(Currency from : Currency.values()){
+            for(Currency to: Currency.values()){
+                if(!from.equals(to)){
+                    createCurrent(from,to);
+                }
+            }
+        }
+    }
 }
-
