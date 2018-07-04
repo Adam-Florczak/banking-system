@@ -2,6 +2,7 @@ package banking.system.transaction;
 
 import banking.system.account.Account;
 import banking.system.account.AccountRepository;
+import banking.system.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,40 +61,35 @@ public class TransactionServiceImpl implements TransactionService {
         Set<Transaction> result = findAllFromAccount(id);
         result.addAll(findAllToAccount(id));
         return result;
-
     }
 
     @Transactional
     @Override
     public Transaction createTransaction(TransactionDTO transactionDTO) {
 
-//        Long fromID = transactionDTO.getFrom().getId();
-//        Long toID = transactionDTO.getTo().getId();
-
         String fromNumber = transactionDTO.getFromNumber();
         String toNumber = transactionDTO.getToNumber();
 
-
         if(transactionDTO.getDueDate().isBefore(LocalDateTime.now())){
-            throw new RuntimeException("No option for create past transaction");
+            throw new PastTransactionException();
         }
         if(fromNumber.equals(toNumber)){
-            throw new RuntimeException("No self-transaction allow");
+            throw new SendToOwnAccountException();
         }
 
         Account from = accountRepository.findOneByNumber(fromNumber).orElseThrow(RuntimeException::new);
         Account to = accountRepository.findOneByNumber(toNumber).orElseThrow(RuntimeException::new);
 
         if(transactionDTO.getAmount().compareTo(from.getBalance())>0){
-            throw new RuntimeException("You're too poor exception");
+            throw new NoEnoughMoneyException();
         }
 
         if(transactionDTO.getAmount().compareTo(BigDecimal.ZERO)<0){
-            throw new RuntimeException("Negative amount exception");
+            throw new NegativeAmountException();
         }
 
         if(transactionDTO.getTitle().equals("")){
-            throw new RuntimeException("No title transaction exception");
+            throw new NotEmptyTitleFieldException();
         }
 
         //Todo Co z walutami?
