@@ -3,6 +3,7 @@ package banking.system.transaction;
 import banking.system.account.Account;
 import banking.system.account.AccountRepository;
 import banking.system.exceptions.*;
+import banking.system.exchangerate.ExchangeRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+    private final String bankAccountNumberPrefix="PL99769997";
+
     private TransactionRepository transactionRepository;
     private AccountRepository accountRepository;
+    private ExchangeRateRepository exchangeRateRepository;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository, AccountRepository accountRepository) {
@@ -66,7 +70,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     @Override
     public Transaction createTransaction(TransactionDTO transactionDTO) {
-
         String fromNumber = transactionDTO.getFromNumber();
         String toNumber = transactionDTO.getToNumber();
 
@@ -80,7 +83,35 @@ public class TransactionServiceImpl implements TransactionService {
         Account from = accountRepository.findOneByNumber(fromNumber).orElseThrow(RuntimeException::new);
         Account to = accountRepository.findOneByNumber(toNumber).orElseThrow(RuntimeException::new);
 
-        if(transactionDTO.getAmount().compareTo(from.getBalance())>0){
+        Boolean differentFromAndTransactionCurrency=false;
+        if(!from.getCurrency().equals(transactionDTO.getCurrency())){
+            differentFromAndTransactionCurrency=true;
+        }
+        Boolean differentTransactionAndToCurrency=false;
+        if(!transactionDTO.getCurrency().equals(to.getCurrency())){
+            differentTransactionAndToCurrency=true;
+        }
+        BigDecimal fromToTransactionRate=BigDecimal.ONE;
+        BigDecimal transactionToToRate=BigDecimal.ONE;
+        if(differentFromAndTransactionCurrency){
+            fromToTransactionRate=exchangeRateRepository
+                    .findFirstByFromAndToOrderByCreatedAtDesc(from.getCurrency(),transactionDTO.getCurrency())
+                    .getRate();
+        }
+        if(differentTransactionAndToCurrency){
+            transactionToToRate=exchangeRateRepository
+                    .findFirstByFromAndToOrderByCreatedAtDesc(transactionDTO.getCurrency(),to.getCurrency())
+                    .getRate();
+        }
+
+        BigDecimal moneyNeeded;
+        if(differentFromAndTransactionCurrency){
+            moneyNeeded=transactionDTO.getAmount().multiply(fromToTransactionRate);
+        }
+        else{
+            moneyNeeded=transactionDTO.getAmount();
+        }
+        if(from.getBalance().compareTo(moneyNeeded)<0){
             throw new NoEnoughMoneyException();
         }
 
@@ -92,14 +123,24 @@ public class TransactionServiceImpl implements TransactionService {
             throw new NotEmptyTitleFieldException();
         }
 
-        //Todo Co z walutami?
-        if(!from.getCurrency().equals(transactionDTO.getCurrency())){
-            //todo prowizja1
-
+        if(differentFromAndTransactionCurrency){
+            BigDecimal amountInCorrectCurrency= transactionDTO.getAmount().multiply(fromToTransactionRate);
+            from.setBalance(from.getBalance().subtract(amountInCorrectCurrency.multiply(new BigDecimal("1.05"))));
+            takeProvision(amountInCorrectCurrency.multiply(new BigDecimal("0.05")),
+                    bankAccountNumberPrefix+transactionDTO.getCurrency().name());
         }
-        if(!transactionDTO.getCurrency().equals(to.getCurrency())){
-            //todo proizja2
+        else{
+            from.setBalance(from.getBalance().subtract(transactionDTO.getAmount()));
+        }
 
+        if(differentTransactionAndToCurrency){
+            BigDecimal amountInCorrectCurrency = transactionDTO.getAmount().multiply(transactionToToRate);
+            to.setBalance(to.getBalance().add(amountInCorrectCurrency.multiply(new BigDecimal("0.95"))));
+            takeProvision(amountInCorrectCurrency.multiply(new BigDecimal("0.05")),
+                    bankAccountNumberPrefix+transactionDTO.getCurrency());
+        }
+        else{
+            to.setBalance(to.getBalance().add(transactionDTO.getAmount()));
         }
 
         Transaction transaction = new Transaction();
@@ -109,10 +150,6 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTitle(transactionDTO.getTitle());
         transaction = transactionRepository.save(transaction);
 
-        from = accountRepository.findOneByNumber(fromNumber).orElseThrow(RuntimeException::new);
-        to = accountRepository.findOneByNumber(toNumber).orElseThrow(RuntimeException::new);
-        from.setBalance(from.getBalance().subtract(transaction.getAmount()));
-        to.setBalance(from.getBalance().add(transaction.getAmount()));
         accountRepository.save(from);
         accountRepository.save(to);
 
@@ -122,5 +159,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deleteOneById(Long id) {
         transactionRepository.delete(id);
+    }
+
+    private void takeProvision(BigDecimal value, String bankAccountNumber){
+        Account bankAccount=accountRepository.findOneByNumber(bankAccountNumber).orElseThrow(RuntimeException::new);
+        bankAccount.setBalance(bankAccount.getBalance().add(value));
     }
 }
