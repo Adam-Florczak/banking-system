@@ -23,7 +23,7 @@ public class Account extends BaseEntity {
     @NotNull
     private String number;
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     private Client owner;
 
