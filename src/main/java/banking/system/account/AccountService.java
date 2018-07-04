@@ -6,6 +6,8 @@ public interface AccountService {
 
     Account findById(Long id);
 
+    Account findOneByNumber(String number);
+
     Set<Account> findAll();
 
     void deleteOneById(Long id);
