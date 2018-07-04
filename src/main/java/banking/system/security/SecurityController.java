@@ -41,8 +41,9 @@ public class SecurityController {
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
-        Client client = new Client();
-        modelAndView.addObject("client", client);
+//        Client client = new Client();
+        ClientCreateDTO clientDTO = new ClientCreateDTO();
+        modelAndView.addObject("clientDTO", clientDTO);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
