@@ -8,4 +8,5 @@ public interface ExchangeRateService {
     ExchangeRate createCurrent(Currency from, Currency to);
     void updateRates();
 
+
 }

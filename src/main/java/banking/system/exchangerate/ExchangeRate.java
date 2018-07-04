@@ -4,6 +4,7 @@ import banking.system.common.BaseEntity;
 import banking.system.common.Currency;
 
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,6 +13,7 @@ public class ExchangeRate extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Enumerated(EnumType.STRING)
     private Currency fromCurrency;
@@ -51,10 +53,12 @@ public class ExchangeRate extends BaseEntity {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+
     }
 
     @Override
     public String toString() {
+
         return "\nID: " + id +
                 "\nfrom: " + fromCurrency.name() +
                 "\nto: " + toCurrency.name() +
