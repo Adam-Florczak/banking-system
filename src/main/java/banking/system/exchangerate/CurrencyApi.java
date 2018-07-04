@@ -14,7 +14,8 @@ class CurrencyApi {
 
     public BigDecimal getRatio(String from, String to) throws IOException {
 
-        String address = "https://free.currencyconverterapi.com/api/v5/convert?q=" + from + "_"+to+"&compact=ultra";
+        String address = "https://raw.githubusercontent.com/maciejkrolpl/temp_curr_api/master/json.html";
+        String findKey = from.concat("_").concat(to);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -29,7 +30,10 @@ class CurrencyApi {
 
         Set<String> keys = map.keySet();
         for (String key : keys) {
-            ratio = map.get(key);
+            if (key.equals(findKey)) {
+                ratio = map.get(key);
+                break;
+            }
         }
 
         return ratio;
