@@ -11,9 +11,11 @@ import java.util.Set;
 
 class CurrencyApi {
 
-    public BigDecimal getRatio(String currency) throws IOException {
 
-        String address = "https://free.currencyconverterapi.com/api/v5/convert?q=" + currency + "_PLN&compact=ultra";
+    public BigDecimal getRatio(String from, String to) throws IOException {
+
+        String address = "https://free.currencyconverterapi.com/api/v5/convert?q=" + from + "_"+to+"&compact=ultra";
+
         RestTemplate restTemplate = new RestTemplate();
 
         String s = restTemplate.getForObject(address, String.class);
