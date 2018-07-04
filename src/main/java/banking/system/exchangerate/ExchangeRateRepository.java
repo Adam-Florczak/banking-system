@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long> {
 
-    ExchangeRate findOneByCreatedAtOrderByCreatedAtDesc();
+  ExchangeRate findFirstByOrderByCreatedAtDesc();
 }
