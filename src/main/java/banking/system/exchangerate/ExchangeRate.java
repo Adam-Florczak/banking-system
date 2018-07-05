@@ -14,7 +14,6 @@ public class ExchangeRate extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Enumerated(EnumType.STRING)
     private Currency fromCurrency;
 
@@ -58,7 +57,6 @@ public class ExchangeRate extends BaseEntity {
 
     @Override
     public String toString() {
-
         return "\nID: " + id +
                 "\nfrom: " + fromCurrency.name() +
                 "\nto: " + toCurrency.name() +
