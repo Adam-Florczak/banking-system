@@ -46,9 +46,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<String>("Choose the correct date",HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler(EmptyTitleFieldException.class)
     @ResponseBody
     public ResponseEntity<String> handleEmptyTitleFieldException(EmptyTitleFieldException e){
+
         return new ResponseEntity<String>(" Enter the title of the transfer",HttpStatus.BAD_REQUEST);
     }
 

@@ -34,6 +34,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account findOneByNumber(String number) {
+        Optional<Account> optionalAccount = repository.findOneByNumber(number);
+//        Set<Account> accounts=findAll();
+//        Optional<Account> optionalAccount = accounts.stream()
+//                .filter(account -> account.getNumber().equals(number))
+//                .findFirst();
+        if (optionalAccount.isPresent()) {
+            return optionalAccount.get();
+        } else {
+            throw new RuntimeException("No account found");
+        }
+    }
+
+    @Override
     public Set<Account> findAll() {
         return new HashSet<>(repository.findAll());
     }

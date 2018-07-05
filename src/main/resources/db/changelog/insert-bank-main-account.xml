@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="seba (generated)" id="1530722154384-41">
+        <insert tableName="client">
+            <column name="id" valueNumeric="666"/>
+            <column name="email" value="banking.system.java8@gmail.com"/>
+            <column name="enabled" valueNumeric="1"/>
+            <column name="first_name" value="Green"/>
+            <column name="last_name" value="Trust"/>
+            <column name="password" value="$2a$10$11eAIAMP5hdBnmnwUpxCZuwDKRCz.3xKGnifN1ADGnMRlZBfOcyWC"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueNumeric="901"/>
+            <column name="balance" valueNumeric="1000000"/>
+            <column name="currency" value="PLN"/>
+            <column name="type" value="PERSONAL"/>
+            <column name="number" value="PL99769997PLN"/>
+            <column name="owner_id" valueNumeric="666"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueNumeric="902"/>
+            <column name="balance" valueNumeric="1000000"/>
+            <column name="currency" value="EUR"/>
+            <column name="type" value="PERSONAL"/>
+            <column name="number" value="PL99769997EUR"/>
+            <column name="owner_id" valueNumeric="666"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueNumeric="903"/>
+            <column name="balance" valueNumeric="1000000"/>
+            <column name="currency" value="CHF"/>
+            <column name="type" value="PERSONAL"/>
+            <column name="number" value="PL99769997CHF"/>
+            <column name="owner_id" valueNumeric="666"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueNumeric="904"/>
+            <column name="balance" valueNumeric="1000000"/>
+            <column name="currency" value="GBP"/>
+            <column name="type" value="PERSONAL"/>
+            <column name="number" value="PL99769997GBP"/>
+            <column name="owner_id" valueNumeric="666"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueNumeric="905"/>
+            <column name="balance" valueNumeric="1000000"/>
+            <column name="currency" value="USD"/>
+            <column name="type" value="PERSONAL"/>
+            <column name="number" value="PL99769997USD"/>
+            <column name="owner_id" valueNumeric="666"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
