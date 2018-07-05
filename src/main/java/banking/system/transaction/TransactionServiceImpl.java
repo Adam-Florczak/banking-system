@@ -114,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
             moneyNeeded=transactionDTO.getAmount();
         }
         if(from.getBalance().compareTo(moneyNeeded)<0){
-            throw new NoEnoughMoneyException();
+            throw new NotEnoughMoneyException();
         }
 
         if(transactionDTO.getAmount().compareTo(BigDecimal.ZERO)<0){
