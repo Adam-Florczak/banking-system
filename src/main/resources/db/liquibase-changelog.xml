@@ -30,10 +30,10 @@
     <changeSet author="seba (generated)" id="1530727974807-2">
         <createTable tableName="account_transaction">
             <column name="account_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="transaction_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -87,10 +87,10 @@
     <changeSet author="seba (generated)" id="1530727974807-5">
         <createTable tableName="client_account_set">
             <column name="client_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="account_set_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -120,10 +120,10 @@
     <changeSet author="seba (generated)" id="1530727974807-7">
         <createTable tableName="credit_installments">
             <column name="credit_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="installments_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -190,19 +190,17 @@
         </createTable>
     </changeSet>
     <changeSet author="seba (generated)" id="1530727974807-11">
-        <addPrimaryKey columnNames="account_id, transaction_id" constraintName="PRIMARY" tableName="account_transaction"/>
-    </changeSet>
-    <changeSet author="seba (generated)" id="1530727974807-12">
-        <addPrimaryKey columnNames="client_id, account_set_id" constraintName="PRIMARY" tableName="client_account_set"/>
-    </changeSet>
-    <changeSet author="seba (generated)" id="1530727974807-13">
-        <addPrimaryKey columnNames="credit_id, installments_id" constraintName="PRIMARY" tableName="credit_installments"/>
-    </changeSet>
-    <changeSet author="seba (generated)" id="1530727974807-14">
-        <addUniqueConstraint columnNames="account_set_id" constraintName="UK_fg0elbs6xj2lncih66deb37q3" tableName="client_account_set"/>
-    </changeSet>
-    <changeSet author="seba (generated)" id="1530727974807-15">
-        <addUniqueConstraint columnNames="installments_id" constraintName="UK_pswt5sogir420iuv2ab8vhgfx" tableName="credit_installments"/>
+        <createTable tableName="exchange_rate">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="from_currency" type="VARCHAR(255)" />
+            <column name="to_currency" type="VARCHAR(255)" />
+            <column name="rate" type="DECIMAL(19, 2)"/>
+        </createTable>
     </changeSet>
     <changeSet author="seba (generated)" id="1530727974807-16">
         <createIndex indexName="FK2ft232cgu11jgd3lddv3rk508" tableName="investment">
