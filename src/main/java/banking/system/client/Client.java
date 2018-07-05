@@ -27,7 +27,7 @@ public class Client extends BaseEntity {
 
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Address address;
 
     @NotNull

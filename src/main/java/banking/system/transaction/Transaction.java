@@ -2,6 +2,7 @@ package banking.system.transaction;
 
 import banking.system.account.Account;
 import banking.system.common.Currency;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -98,4 +99,5 @@ public class Transaction {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

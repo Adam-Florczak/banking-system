@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="seba (generated)" id="1530727974807-1">
+        <createTable tableName="account">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="balance" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interest" type="DECIMAL(19, 2)"/>
+            <column name="number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provision" type="DECIMAL(19, 2)"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="credit_id" type="BIGINT"/>
+            <column name="investment_id" type="BIGINT"/>
+            <column name="owner_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-2">
+        <createTable tableName="account_transaction">
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-3">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zip_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-4">
+        <createTable tableName="client">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-5">
+        <createTable tableName="client_account_set">
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_set_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-6">
+        <createTable tableName="credit">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="amount" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="installments_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interest" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-7">
+        <createTable tableName="credit_installments">
+            <column name="credit_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="installments_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-8">
+        <createTable tableName="investment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="TINYBLOB"/>
+            <column name="updated_at" type="TINYBLOB"/>
+            <column name="uuid" type="VARCHAR(255)"/>
+            <column name="amount" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interest" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="term" type="TINYBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-9">
+        <createTable tableName="transaction">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="amount" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="TINYBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-10">
+        <createTable tableName="verification_token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="expiry_date" type="datetime"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-11">
+        <addPrimaryKey columnNames="account_id, transaction_id" constraintName="PRIMARY" tableName="account_transaction"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-12">
+        <addPrimaryKey columnNames="client_id, account_set_id" constraintName="PRIMARY" tableName="client_account_set"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-13">
+        <addPrimaryKey columnNames="credit_id, installments_id" constraintName="PRIMARY" tableName="credit_installments"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-14">
+        <addUniqueConstraint columnNames="account_set_id" constraintName="UK_fg0elbs6xj2lncih66deb37q3" tableName="client_account_set"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-15">
+        <addUniqueConstraint columnNames="installments_id" constraintName="UK_pswt5sogir420iuv2ab8vhgfx" tableName="credit_installments"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-16">
+        <createIndex indexName="FK2ft232cgu11jgd3lddv3rk508" tableName="investment">
+            <column name="payment_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-17">
+        <createIndex indexName="FK3u8jw6o39r5sf0vn8ltjo3qyt" tableName="transaction">
+            <column name="to_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-18">
+        <createIndex indexName="FK6xxmvl1tnux0xew6y0204fbbo" tableName="account_transaction">
+            <column name="transaction_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-19">
+        <createIndex indexName="FK921rdadcvbq2sldyfjp0undm2" tableName="account">
+            <column name="credit_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-20">
+        <createIndex indexName="FKa6d17e1yd83kwwmrt26g86jia" tableName="verification_token">
+            <column name="client_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-21">
+        <createIndex indexName="FKb137u2cl2ec0otae32lk5pcl2" tableName="client">
+            <column name="address_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-22">
+        <createIndex indexName="FKbjagnkghlall8fp1e3x9ar8i0" tableName="account">
+            <column name="investment_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-23">
+        <createIndex indexName="FKqjl6giaj0918wm6afxu9epxfy" tableName="account">
+            <column name="owner_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-24">
+        <createIndex indexName="FKsv1skea9wv85l260yjs7vsfhn" tableName="transaction">
+            <column name="from_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-25">
+        <createIndex indexName="FKt7958tp3eu6xsep7y9tsdqko" tableName="credit">
+            <column name="account_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-26">
+        <addForeignKeyConstraint baseColumnNames="credit_id" baseTableName="credit_installments" constraintName="FK1f2w00lonf1s4ui6p2d1q3mcv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="credit"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-27">
+        <addForeignKeyConstraint baseColumnNames="payment_id" baseTableName="investment" constraintName="FK2ft232cgu11jgd3lddv3rk508" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="transaction"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-28">
+        <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="transaction" constraintName="FK3u8jw6o39r5sf0vn8ltjo3qyt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-29">
+        <addForeignKeyConstraint baseColumnNames="transaction_id" baseTableName="account_transaction" constraintName="FK6xxmvl1tnux0xew6y0204fbbo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="transaction"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-30">
+        <addForeignKeyConstraint baseColumnNames="credit_id" baseTableName="account" constraintName="FK921rdadcvbq2sldyfjp0undm2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="credit"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-31">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="verification_token" constraintName="FKa6d17e1yd83kwwmrt26g86jia" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="client"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-32">
+        <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="client" constraintName="FKb137u2cl2ec0otae32lk5pcl2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="address"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-33">
+        <addForeignKeyConstraint baseColumnNames="investment_id" baseTableName="account" constraintName="FKbjagnkghlall8fp1e3x9ar8i0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="investment"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-34">
+        <addForeignKeyConstraint baseColumnNames="installments_id" baseTableName="credit_installments" constraintName="FKdx714kpbjmnwg6nmqw5g5ey9e" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="transaction"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-35">
+        <addForeignKeyConstraint baseColumnNames="account_set_id" baseTableName="client_account_set" constraintName="FKf4b4sxrl0ldv5miwxisylp1ed" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-36">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="client_account_set" constraintName="FKhegxp8t9olexuwiw5i3wkyq2a" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="client"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-37">
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="account" constraintName="FKqjl6giaj0918wm6afxu9epxfy" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="client"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-38">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="account_transaction" constraintName="FKqonh25s0w6r5cf8jq88m6kd8o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-39">
+        <addForeignKeyConstraint baseColumnNames="from_id" baseTableName="transaction" constraintName="FKsv1skea9wv85l260yjs7vsfhn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="seba (generated)" id="1530727974807-40">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="credit" constraintName="FKt7958tp3eu6xsep7y9tsdqko" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <include file="changelog/insert-bank-main-account.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

@@ -141,5 +141,4 @@ public class ClientServiceImpl implements ClientService {
         return tokenRepository.findByToken(token).getClient();
     }
 
-
 }
