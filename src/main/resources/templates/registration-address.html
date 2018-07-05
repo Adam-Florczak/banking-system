@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration-Address</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="form">
+    <h1 th:text="#{label.form.title}">Registration Address</h1>
+    <form th:action="/newclientaddress" th:object="${client}" method="post" enctype="utf8">
+        <div>
+            <label th:text="#{label.client.country}">Country: </label><br>
+            <input th:field="*{country}"/>
+            <!--<p th:each="error: ${#fields.errors('firstName')}"-->
+            <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.city}">City: </label><br>
+            <input th:field="*{city}"/>
+            <!--<p th:each="error : ${#fields.errors('lastName')}"-->
+            <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+
+            <label th:text="#{label.client.zipcode}">Zip code: </label><br>
+            <input type="text" th:field="*{zipcode}"/>
+            <!--<p th:each="error : ${#fields.errors('email')}"-->
+            <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.street}">Street: </label><br>
+            <input type="text" th:field="*{street}"/>
+            <!--<p th:each="error : ${#fields.errors('password')}"-->
+            <!--th:text="${error}">Validation error</p>-->
+        </div>
+        <div>
+            <label th:text="#{label.client.number}">Number: </label><br>
+            <input type="number" th:field="*{number}"/>
+        </div>
+        <button type="submit" th:text="#{label.form.submit}">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -12,6 +12,7 @@ import java.util.Set;
 class CurrencyApi {
 
 
+
     public BigDecimal getRatio(String from, String to) throws IOException {
 
         String address = "https://raw.githubusercontent.com/maciejkrolpl/temp_curr_api/master/json.html";
@@ -30,6 +31,7 @@ class CurrencyApi {
 
         Set<String> keys = map.keySet();
         for (String key : keys) {
+
             if (key.equals(findKey)) {
                 ratio = map.get(key);
                 break;
