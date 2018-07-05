@@ -32,17 +32,24 @@ public class ExchangeRateServiceImplTest {
 
         ExchangeRateServiceImpl service = new ExchangeRateServiceImpl(repository);
         service.updateRates();
-//        for(Currency from : Currency.values()){
-//            for(Currency to: Currency.values()){
-//                if(!from.equals(to)){
-//                    Assert.assertNotNull(repository.findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(from,to));
-//                }
-//            }
-//        }
-        List<ExchangeRate> all = repository.findAll();
-        System.out.println(Currency.PLN.name());
-        System.out.println(Arrays.toString(all.toArray()));
-        Assert.assertNotNull(repository.findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(Currency.PLN,Currency.CHF));
+
+
+
+
+        for(Currency from : Currency.values()){
+            for(Currency to: Currency.values()){
+                if(!from.equals(to)){
+                    ExchangeRate rate = repository.findFirstByFromCurrencyAndToCurrencyOrderByCreatedAtDesc(from, to);
+
+                    Assert.assertEquals(from, rate.getFromCurrency());
+                    Assert.assertEquals(to, rate.getToCurrency());
+                    Assert.assertNotNull(rate.getRate());
+
+                }
+            }
+        }
+
+
     }
 
     //todo
