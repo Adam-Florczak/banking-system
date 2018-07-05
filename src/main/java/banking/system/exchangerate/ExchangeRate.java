@@ -4,6 +4,7 @@ import banking.system.common.BaseEntity;
 import banking.system.common.Currency;
 
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -51,6 +52,7 @@ public class ExchangeRate extends BaseEntity {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+
     }
 
     @Override
