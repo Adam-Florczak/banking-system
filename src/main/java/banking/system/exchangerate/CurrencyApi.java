@@ -7,7 +7,6 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Set;
 
 class CurrencyApi {
 
@@ -23,20 +22,10 @@ class CurrencyApi {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, BigDecimal> map;
-        BigDecimal ratio = BigDecimal.ZERO;
-        map = mapper.readValue(s, new TypeReference<Map<String, BigDecimal>>() {
+        Map<String, BigDecimal> map = mapper.readValue(s, new TypeReference<Map<String, BigDecimal>>() {
         });
 
-        Set<String> keys = map.keySet();
-        for (String key : keys) {
-            if (key.equals(findKey)) {
-                ratio = map.get(key);
-                break;
-            }
-        }
-
-        return ratio;
+        return map.get(findKey);
 
     }
 
