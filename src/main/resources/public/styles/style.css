@@ -61,7 +61,7 @@ h1 {
 }
 
 body {
-    background-image: url("public/img/green.jpg");
+    background-image: url("/../img/green.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
