@@ -1,6 +1,10 @@
 package banking.system.client;
 
 
+import banking.system.account.Account;
+import banking.system.account.AccountServiceImpl;
+import banking.system.account.AccountType;
+import banking.system.common.Currency;
 import banking.system.security.token.VerificationToken;
 import banking.system.security.token.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
     private PasswordEncoder passwordEncoder;
     private JavaMailSender mailSender;
     private VerificationTokenRepository tokenRepository;
+    private AccountServiceImpl accountService;
 
     @Autowired
     public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, JavaMailSender mailSender, VerificationTokenRepository tokenRepository) {
@@ -102,7 +108,16 @@ public class ClientServiceImpl implements ClientService {
 
         client.setAddress(address);
 
-        return client;
+        Account account = new Account();
+
+        account.setNumber(accountService.generateAccountNumber());
+        account.setOwner(client);
+        account.setCurrency(Currency.PLN);
+        account.setInterest(BigDecimal.ZERO);
+        account.setProvision(BigDecimal.ZERO);
+        account.setType(AccountType.PERSONAL);
+
+        return clientRepository.save(client);
     }
 
     private void sendVerificationEmail(Client client){
