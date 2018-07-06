@@ -17,12 +17,13 @@ class CurrencyApi {
     private final String API_KEY = "e81a4ece541e45318b896a7697c2e673";
 
 
+
     public BigDecimal getRatio(String from, String to) throws IOException {
 
 
         String address = "https://raw.githubusercontent.com/maciejkrolpl/temp_curr_api/master/json.html";
+        String findKey = from.concat("_").concat(to);
 
-        String findKey = from + "_" + to;
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -32,6 +33,7 @@ class CurrencyApi {
 
         Map<String, BigDecimal> map = mapper.readValue(s, new TypeReference<Map<String, BigDecimal>>() {
         });
+
 
         return map.get(findKey);
 

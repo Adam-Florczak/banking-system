@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 public class AccountCreateDTO {
 
-    private String number;
     private Client owner;
     private Currency currency;
     private BigDecimal interest;
@@ -20,14 +19,6 @@ public class AccountCreateDTO {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public Client getOwner() {

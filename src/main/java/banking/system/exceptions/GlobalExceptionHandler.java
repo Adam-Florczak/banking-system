@@ -33,9 +33,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<String>("You can't send money to yourself",HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoEnoughMoneyException.class)
+    @ExceptionHandler(NotEnoughMoneyException.class)
     @ResponseBody
-    public ResponseEntity<String> handleNoEnoughMoneyException(NoEnoughMoneyException e){
+    public ResponseEntity<String> handleNoEnoughMoneyException(NotEnoughMoneyException e){
         return new ResponseEntity<String>("You don't have enough money",HttpStatus.I_AM_A_TEAPOT);
     }
 
@@ -46,9 +46,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<String>("Choose the correct date",HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotEmptyTitleFieldException.class)
+    @ExceptionHandler(EmptyTitleFieldException.class)
     @ResponseBody
-    public ResponseEntity<String> handleNotEmptyTitleFieldException(NotEmptyTitleFieldException e){
+    public ResponseEntity<String> handleEmptyTitleFieldException(EmptyTitleFieldException e){
+
         return new ResponseEntity<String>(" Enter the title of the transfer",HttpStatus.BAD_REQUEST);
     }
 
