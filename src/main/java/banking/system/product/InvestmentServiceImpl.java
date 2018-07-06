@@ -56,7 +56,7 @@ public class InvestmentServiceImpl implements InvestmentService {
         else{
             throw new RuntimeException("No account found");
         }
-        //todo fixthisshit
+        //todo fix this after change Account class
         return account.getInvestment();
     }
 
