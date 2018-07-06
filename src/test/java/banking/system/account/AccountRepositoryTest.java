@@ -43,17 +43,15 @@ public class AccountRepositoryTest {
 
     @Test
     public void givenNewAccountEntity_WhenSavedAndRetrievingFromDb_ThenOk() {
-        accountRepository.save(prepareAccount());
-        Optional<Account> found = accountRepository.findById(1L);
-
-        Assert.assertTrue(found.isPresent());
+        Account save = accountRepository.save(prepareAccount());
+        Assert.assertNotNull(save);
     }
 
     @Test
     public void givenAccountEntity_WhenDeletedAndRetrievingFromDb_ThenNotFound() {
-        accountRepository.save(prepareAccount());
-        accountRepository.delete(1L);
-        Optional<Account> found = accountRepository.findById(1L);
+        Account save = accountRepository.save(prepareAccount());
+        accountRepository.delete(save.getId());
+        Optional<Account> found = accountRepository.findById(save.getId());
         Assert.assertFalse(found.isPresent());
     }
 

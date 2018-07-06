@@ -31,6 +31,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        rate.setToCurrency(to);
+        rate.setFromCurrency(from);
         return repository.save(rate);
     }
 
