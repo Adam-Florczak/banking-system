@@ -288,4 +288,5 @@
     <changeSet author="seba (generated)" id="1530899369301-39">
         <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="credit" constraintName="FKt7958tp3eu6xsep7y9tsdqko" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
     </changeSet>
+    <include file="changelog/insert-bank-main-account.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
