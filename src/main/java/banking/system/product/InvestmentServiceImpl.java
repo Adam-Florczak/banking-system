@@ -4,7 +4,6 @@ import banking.system.account.Account;
 import banking.system.account.AccountRepository;
 import banking.system.transaction.Transaction;
 import banking.system.transaction.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -47,7 +46,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     }
 
     @Override
-    public Investment findByAccount(Long id) {
+    public Set<Investment> findByAccount(Long id) {
         Account account;
         Optional<Account> optionalAccount=accountRepository.findById(id);
         if(optionalAccount.isPresent()){
@@ -57,7 +56,7 @@ public class InvestmentServiceImpl implements InvestmentService {
             throw new RuntimeException("No account found");
         }
         //todo fix this after change Account class
-        return account.getInvestment();
+        return account.getInvestments();
     }
 
 
