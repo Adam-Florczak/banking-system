@@ -16,7 +16,7 @@ public class Investment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "investment")
+    @OneToOne
     private Account account;
 
     @NotNull
