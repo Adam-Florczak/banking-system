@@ -23,7 +23,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public ExchangeRate createCurrent(Currency from, Currency to) {
+    public void createCurrent(Currency from, Currency to) {
         CurrencyApi api = new CurrencyApi();
         ExchangeRate rate = new ExchangeRate();
         try {
@@ -31,9 +31,10 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        rate.setToCurrency(to);
         rate.setFromCurrency(from);
-        return repository.save(rate);
+        rate.setToCurrency(to);
+        repository.save(rate);
+
     }
 
     @Override
