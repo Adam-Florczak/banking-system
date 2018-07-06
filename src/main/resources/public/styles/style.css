@@ -57,46 +57,60 @@ h1 {
     margin: 15px;
     padding: 10px;
     color: #00171F;
-    text-decoration: underline;
+    text-align: center;
 }
 
 body {
-    /*background-color: #A9BCD0;*/
-    background-image: url("../img/green.jpg");
+    background-image: url("/../img/green.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
 
-/* Registration form */
+/* Formular */
 
-.form {
+.single-form {
     text-align: center;
 }
 
-.form div {
-    margin: 5px;
-    padding: 5px;
-    color: #00171F;
-
-}
-
-label, button {
+label {
     font-family: 'Helvetica', sans-serif;
     font-size: 13px;
     padding: 5px;
-    border-radius: 5px;
+    text-align: left;
 }
 
 button {
+    font-family: 'Helvetica', sans-serif;
     background-color: #B2FF9E;
     font-size: 15px;
+    margin: 20px 30px;
+    border-radius: 5px;
+    clear: both;
+    text-align: center;
+}
+
+.two-buttons {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.double-col {
+    text-align: center;
 }
 
 input {
     border-radius: 5px;
-
 }
 
+/*Account page*/
 
+ul {
+    border: 1px solid white;
+}
+
+.col-md-9 h1{
+    text-align: center;
+    margin: 0 auto;
+}

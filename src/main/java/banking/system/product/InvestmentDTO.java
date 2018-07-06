@@ -1,63 +1,31 @@
 package banking.system.product;
 
-import banking.system.account.Account;
-import banking.system.common.BaseEntity;
 import banking.system.common.Currency;
 import banking.system.transaction.Transaction;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-public class Investment extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class InvestmentDTO {
 
-    @OneToOne
-    private Account account;
+    private String accountNumber;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
     private Currency currency;
 
-    @NotNull
     private BigDecimal amount;
 
-    @NotNull
     private LocalDateTime term;
 
-    @NotNull
     private BigDecimal interest;
 
-    @NotNull
-    @OneToOne
     private Transaction payment;
 
-    public Investment() {
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public Investment(Account account, Currency currency, BigDecimal amount, LocalDateTime term, BigDecimal interest, Transaction payment) {
-        this.account = account;
-        this.currency = currency;
-        this.amount = amount;
-        this.term = term;
-        this.interest = interest;
-        this.payment = payment;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public Currency getCurrency() {

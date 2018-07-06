@@ -1,12 +1,10 @@
 package banking.system.exchangerate;
 
 import banking.system.common.BaseEntity;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import banking.system.common.Currency;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -16,10 +14,13 @@ public class ExchangeRate extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal eur;
-    private BigDecimal chf;
-    private BigDecimal gbp;
-    private BigDecimal usd;
+    @Enumerated(EnumType.STRING)
+    private Currency fromCurrency;
+
+    @Enumerated(EnumType.STRING)
+    private Currency toCurrency;
+
+    private BigDecimal rate;
 
     public Long getId() {
         return id;
@@ -29,45 +30,37 @@ public class ExchangeRate extends BaseEntity {
         this.id = id;
     }
 
-    public BigDecimal getEur() {
-        return eur;
+    public Currency getFromCurrency() {
+        return fromCurrency;
     }
 
-    public void setEur(BigDecimal eur) {
-        this.eur = eur;
+    public void setFromCurrency(Currency fromCurrency) {
+        this.fromCurrency = fromCurrency;
     }
 
-    public BigDecimal getChf() {
-        return chf;
+    public Currency getToCurrency() {
+        return toCurrency;
     }
 
-    public void setChf(BigDecimal chf) {
-        this.chf = chf;
+    public void setToCurrency(Currency toCurrency) {
+        this.toCurrency = toCurrency;
     }
 
-    public BigDecimal getGbp() {
-        return gbp;
+    public BigDecimal getRate() {
+        return rate;
     }
 
-    public void setGbp(BigDecimal gbp) {
-        this.gbp = gbp;
-    }
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
 
-    public BigDecimal getUsd() {
-        return usd;
-    }
-
-    public void setUsd(BigDecimal usd) {
-        this.usd = usd;
     }
 
     @Override
     public String toString() {
-        return "\nCREATED: " + this.getCreatedAt() +
-                "\nEUR: " + this.eur +
-                "\nGBP: " + this.gbp +
-                "\nCHF: " + this.chf +
-                "\nUSD: " + this.usd;
+        return "\nID: " + id +
+                "\nfrom: " + fromCurrency.name() +
+                "\nto: " + toCurrency.name() +
+                "\nratio: " + rate.toString();
     }
 }
 

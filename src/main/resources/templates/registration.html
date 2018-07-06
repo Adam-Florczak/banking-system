@@ -9,80 +9,85 @@
     <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">
 </head>
 <body>
-<div class="form">
+<div class="container-fluid">
     <h1>Sign up</h1>
-    <form autocomplete="off" action="#" th:action="@{/registration}"
-          th:object="${client}" method="POST" enctype="utf8">
-        <div>
 
-            <label>First Name</label><br>
-            <input type="text" th:field="*{firstName}"/>
-            <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                   class="validation-message"></label>
-        </div>
-        <div>
-            <label>Last Name</label><br>
-            <input th:field="*{lastName}"/>
-            <label   th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                     class="validation-message"></label>
-        </div>
-        <!--<div>
-            <label>Country: </label><br>
-            <input type="text" th:field="*{address.country}"/>
-            <label   th:if="${#fields.hasErrors('address.country')}" th:errors="*{address.country}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>City: </label><br>
-            <input type="text" th:field="*{address.city}"/>
-            <label   th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>Zip code: </label><br>
-            <input type="text" th:field="*{address.zipCode}"/>
-            <label   th:if="${#fields.hasErrors('address.zipCode')}" th:errors="*{address.zipCode}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>Street: </label><br>
-            <input type="text" th:field="*{address.street}"/>
-            <<label   th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
-                      class="validation-message"></label>
-        </div>
-        <div>
-            <label>Number: </label><br>
-            <input type="number" th:field="*{address.number}"/>
-            <label   th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}"
-                     class="validation-message"></label>
-        </div>-->
-        <div>
-            <label>E-mail: </label><br>
-            <input type="email" th:field="*{email}"/>
-            <label   th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                     class="validation-message"></label>
-        </div>
-        <div>
-            <label>Password: </label><br>
-            <input type="password" th:field="*{password}"/>
-            <label   th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                     class="validation-message"></label>
-        </div>
-      <!--  <div>
-            <label>Confirm password: </label><br>
-            <input type="password" th:field="*{matchingPassword}"/>
-            <label   th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"
-                     class="validation-message"></label>
-        </div>-->
-        <button>Submit</button>
-    </form>
+<form autocomplete="off" th:action="@{/registration}"
+      th:object="${clientDTO}" method="POST" enctype="utf8">
+    <div class="double-col">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <label>First name: </label><br>
+                    <input type="text" th:field="*{firstName}"/>
+                    <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                           class="validation-message"></label>
+                </div>
+                <div>
+                    <label>Last name: </label><br>
+                    <input th:field="*{lastName}"/>
+                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                           class="validation-message"></label>
+                </div>
+                <div>
+                    <label>E-mail: </label><br>
+                    <input type="email" th:field="*{email}"/>
+                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                           class="validation-message"></label>
+                </div>
+                <div>
+                    <label>Password: </label><br>
+                    <input type="password" th:field="*{password}"/>
+                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                           class="validation-message"></label>
+                </div>
+                <div>
+                    <label>Confirm password: </label><br>
+                    <input type="password" th:field="*{matchingPassword}"/>
+                    <label th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"
+                           class="validation-message"></label>
+                </div>
+            </div>
 
-
-
-
-
-
-
+            <div class="col-md-6">
+                <div>
+                    <label>Country: </label><br>
+                    <input type="text" th:field="*{country}"/>
+                    <!--<label th:if="${#fields.hasErrors('address.country')}" th:errors="*{address.country}"-->
+                    <!--class="validation-message"></label>-->
+                </div>
+                <div>
+                    <label>City: </label><br>
+                    <input type="text" th:field="*{city}"/>
+                    <!--<label th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}"-->
+                    <!--class="validation-message"></label>-->
+                </div>
+                <div>
+                    <label>Zip code: </label><br>
+                    <input type="text" th:field="*{zipCode}"/>
+                    <!--<label th:if="${#fields.hasErrors('address.zipCode')}" th:errors="*{address.zipCode}"-->
+                    <!--class="validation-message"></label>-->
+                </div>
+                <div>
+                    <label>Street: </label><br>
+                    <input type="text" th:field="*{street}"/>
+                    <!--<label th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"-->
+                    <!--class="validation-message"></label>-->
+                </div>
+                <div>
+                    <label>Number: </label><br>
+                    <input type="number" th:field="*{number}"/>
+                    <!--<label th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}"-->
+                    <!--class="validation-message"></label>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="two-buttons">
+        <button type="submit" role="submit">Submit</button>
+    </div>
+</form>
 </div>
+
 </body>
 </html>

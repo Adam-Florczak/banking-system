@@ -49,28 +49,26 @@ public class Account extends BaseEntity {
 
     private BigDecimal provision;
 
-    @OneToOne
-    private Credit credit;
+    @OneToMany(mappedBy = "account")
+    private Set<Credit> credits;
 
-
-    @OneToOne
-    private Investment investment;
-
+    @OneToMany(mappedBy = "account")
+    private Set<Investment> investments;
 
     public Account() {
     }
 
-    public Account(String number, Client owner, AccountType type, BigDecimal balance, Currency currency, Set<Transaction> transactions, BigDecimal interest, BigDecimal provision, Credit credit, Investment investment) {
+    public Account(String number, Client owner, AccountType type, BigDecimal balance, Currency currency, Set<Transaction> transactions, BigDecimal interest, BigDecimal provision, Set<Credit> credits, Set<Investment> investments) {
         this.number = number;
         this.owner = owner;
-        this.type=type;
+        this.type = type;
         this.balance = balance;
         this.currency = currency;
         this.transactions = transactions;
         this.interest = interest;
         this.provision = provision;
-        this.credit = credit;
-        this.investment = investment;
+        this.credits = credits;
+        this.investments = investments;
     }
 
     public Long getId() {
@@ -141,19 +139,19 @@ public class Account extends BaseEntity {
         this.provision = provision;
     }
 
-    public Credit getCredit() {
-        return credit;
+    public Set<Credit> getCredits() {
+        return credits;
     }
 
-    public void setCredit(Credit credit) {
-        this.credit = credit;
+    public void setCredits(Set<Credit> credits) {
+        this.credits = credits;
     }
 
-    public Investment getInvestment() {
-        return investment;
+    public Set<Investment> getInvestments() {
+        return investments;
     }
 
-    public void setInvestment(Investment investment) {
-        this.investment = investment;
+    public void setInvestments(Set<Investment> investments) {
+        this.investments = investments;
     }
 }
