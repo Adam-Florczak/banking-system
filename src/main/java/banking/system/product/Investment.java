@@ -16,7 +16,7 @@ public class Investment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     private Account account;
 
     @NotNull
@@ -27,19 +27,23 @@ public class Investment extends BaseEntity {
     private BigDecimal amount;
 
     @NotNull
+    private LocalDateTime term;
+
+    @NotNull
     private BigDecimal interest;
 
     @NotNull
     @OneToOne
     private Transaction payment;
 
-    Investment() {
+    public Investment() {
     }
 
     public Investment(Account account, Currency currency, BigDecimal amount, LocalDateTime term, BigDecimal interest, Transaction payment) {
         this.account = account;
         this.currency = currency;
         this.amount = amount;
+        this.term = term;
         this.interest = interest;
         this.payment = payment;
     }
@@ -70,6 +74,14 @@ public class Investment extends BaseEntity {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public LocalDateTime getTerm() {
+        return term;
+    }
+
+    public void setTerm(LocalDateTime term) {
+        this.term = term;
     }
 
     public BigDecimal getInterest() {
