@@ -2,7 +2,9 @@ package banking.system.security;
 
 import banking.system.client.Client;
 import banking.system.client.ClientRepository;
+import banking.system.exceptions.ClientNotActivatedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +20,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
         Optional<Client> byEmail = clientRepository.findByEmail(s);
+        if(!byEmail.isPresent()){
+            throw new UsernameNotFoundException(s);
+        }
+        Client client = byEmail.get();
 
-        return new ClientUserDetails(byEmail.orElseThrow(() -> new UsernameNotFoundException(s)));
+        if(client.isEnabled())
+            return new ClientUserDetails(client);
+        else
+            throw new ClientNotActivatedException();
     }
 }

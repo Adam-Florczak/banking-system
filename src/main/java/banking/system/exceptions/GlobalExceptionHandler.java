@@ -58,4 +58,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNegativeAmountException(NegativeAmountException e){
         return new ResponseEntity<String>("You don't have enough money",HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ClientNotActivatedException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleClientNotActivatedException(ClientNotActivatedException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 }
