@@ -5,7 +5,7 @@ public interface InvestmentService {
 
     Investment findById(Long id);
         Set<Investment> findAll();
-        Set<Investment> findByAccount(Long id);
+        Set<Investment> findByAccountId(Long id);
         Investment createInvestment(InvestmentDTO investmentDTO);
         void deleteOneById(Long id);
 }
