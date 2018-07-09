@@ -45,11 +45,7 @@ public class ClientCreateDTO {
     @NotEmpty
     private String number;
 
-    private Account account;
-
-
     public ClientCreateDTO() {
-
     }
 
     public String getEmail() {
