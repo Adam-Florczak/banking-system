@@ -36,10 +36,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findOneByNumber(String number) {
         Optional<Account> optionalAccount = repository.findOneByNumber(number);
-//        Set<Account> accounts=findAll();
-//        Optional<Account> optionalAccount = accounts.stream()
-//                .filter(account -> account.getNumber().equals(number))
-//                .findFirst();
         if (optionalAccount.isPresent()) {
             return optionalAccount.get();
         } else {
