@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 public class ClientCreateDTO {
 
+
     @NotNull
     @NotEmpty
     private String email;
