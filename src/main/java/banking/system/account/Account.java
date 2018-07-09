@@ -23,7 +23,7 @@ public class Account extends BaseEntity {
     @NotNull
     private String number;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @NotNull
     private Client owner;
 

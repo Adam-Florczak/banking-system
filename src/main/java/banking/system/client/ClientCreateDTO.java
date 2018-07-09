@@ -1,6 +1,7 @@
 package banking.system.client;
 
 
+import banking.system.account.Account;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -43,6 +44,8 @@ public class ClientCreateDTO {
     @NotNull
     @NotEmpty
     private String number;
+
+    private Account account;
 
 
     public ClientCreateDTO() {
