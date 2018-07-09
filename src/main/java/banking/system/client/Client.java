@@ -18,7 +18,7 @@ public class Client extends BaseEntity {
     @NotNull
     private String email;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Account> accountSet;
 
     private String firstName;

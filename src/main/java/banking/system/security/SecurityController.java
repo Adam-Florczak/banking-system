@@ -3,6 +3,8 @@ package banking.system.security;
 import banking.system.client.Client;
 import banking.system.client.ClientCreateDTO;
 import banking.system.client.ClientService;
+import banking.system.exceptions.VerificationTokenExpiredException;
+import banking.system.security.token.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Calendar;
 
 @RestController
 public class SecurityController {
@@ -82,7 +85,19 @@ public class SecurityController {
     @GetMapping("/registerConfirm")
     public ModelAndView confirmRegister(@RequestParam("token") String token){
         ModelAndView modelAndView = new ModelAndView();
+        VerificationToken verificationToken = clientService.getVerificationToken(token);
+
+        if(verificationToken == null){
+            throw new VerificationTokenExpiredException();
+        }
+
         Client client = clientService.findByToken(token);
+        Calendar cal = Calendar.getInstance();
+
+        if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0){
+            throw new VerificationTokenExpiredException();
+        }
+
         client.setEnabled(true);
         clientService.saveRegisteredClient(client);
         modelAndView.addObject("activateMessage", "Account activated");
