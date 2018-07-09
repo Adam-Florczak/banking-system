@@ -28,6 +28,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     private TransactionRepository transactionRepository;
 
     @Autowired
+
     public InvestmentServiceImpl(InvestmentRepository investmentRepository,
                                  AccountRepository accountRepository,
                                  TransactionRepository transactionRepository) {
