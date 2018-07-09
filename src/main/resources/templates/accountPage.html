@@ -6,36 +6,41 @@
     <title>Account</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">-->
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body id="pig-background">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
-            <nav class="navbar">
-                <div>
-                    <ul>
-                        <li><a href="#">Desktop</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Transfers</a></li>
-                        <li><a href="#">History</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <div class="col-md-9">
-        <h1>Your Account</h1>
-        <p>Name and Lastname</p>
-        <p>Czas do końca sesji:</p>
-        <div>
+        <div class="col-md-10">
+            <img id="logo" src="img/logo.jpeg" alt="bank-logo">
             <div>
-                <h3>Personal Account</h3>
-                <p>00 0000 0000</p>
+                <nav class="nav nav-tabs">
+                    <a class="nav-link" href="#">Desktop</a>
+                    <a class="nav-link" href="#">Products</a>
+                    <a class="nav-link" href="#">Transfers</a>
+                    <a class="nav-link" href="#">History</a>
+                </nav>
             </div>
-            <div>
-                <h3>Saldo</h3>
-                <p>0,00 PLN</p>
+        </div>
+        <div class="col-md-2">
+            <button id="log-out-button" type="button">Log out</button>
+            <p>End of session in:</p>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Name and Lastname</h2>
+            <div class="account-table">
+                <div>
+                    <p>Personal Account</p>
+                    <p>00 0000 0000</p>
+                </div>
+                <div>
+                    <p>Saldo</p>
+                    <p>0,00 PLN</p>
+                </div>
             </div>
         </div>
     </div>
