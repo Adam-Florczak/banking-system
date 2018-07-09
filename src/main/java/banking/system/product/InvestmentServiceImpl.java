@@ -4,6 +4,7 @@ import banking.system.account.Account;
 import banking.system.account.AccountRepository;
 import banking.system.transaction.Transaction;
 import banking.system.transaction.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
 
+    @Autowired
     public InvestmentServiceImpl(InvestmentRepository investmentRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.investmentRepository = investmentRepository;
         this.accountRepository = accountRepository;
