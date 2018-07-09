@@ -16,7 +16,7 @@ public class Investment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Account account;
 
     @NotNull
@@ -36,7 +36,7 @@ public class Investment extends BaseEntity {
     @OneToOne
     private Transaction payment;
 
-    public Investment() {
+    Investment() {
     }
 
     public Investment(Account account, Currency currency, BigDecimal amount, LocalDateTime term, BigDecimal interest, Transaction payment) {
