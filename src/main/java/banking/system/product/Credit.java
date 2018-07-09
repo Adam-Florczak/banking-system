@@ -16,7 +16,7 @@ public class Credit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Account account;
 
     @NotNull
