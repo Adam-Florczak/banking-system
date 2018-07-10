@@ -87,6 +87,7 @@ public class InvestmentServiceImpl implements InvestmentService {
             }
         }
 
+
         investment.setAccount(account);
         investment.setAmount(investmentDTO.getAmount());
         investment.setCurrency(investmentDTO.getCurrency());
@@ -109,6 +110,7 @@ public class InvestmentServiceImpl implements InvestmentService {
         payment.setCurrency(investment.getCurrency());
         investment.setPayment(payment);
 
+
         Transaction invest = new Transaction();
         invest.setCurrency(investment.getCurrency());
         invest.setAmount(investment.getAmount());
@@ -120,6 +122,8 @@ public class InvestmentServiceImpl implements InvestmentService {
 
         return investmentRepository.save(investment);
     }
+
+
 
     @Override
     public void deleteOneById(Long id) {

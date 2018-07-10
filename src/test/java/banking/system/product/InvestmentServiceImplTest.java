@@ -48,6 +48,28 @@ public class InvestmentServiceImplTest {
 
         //then
         Assert.assertNotNull(investment);
+
+    }
+
+    @Test
+    public void givenProperInvestment_WhenCreatingAnother_ThenNok() {
+
+        Account account = prepareAccount();
+        InvestmentDTO dto = new InvestmentDTO();
+        dto.setAccountNumber(account.getNumber());
+        dto.setCurrency(account.getCurrency());
+        dto.setAmount(BigDecimal.TEN);
+        dto.setInterest(BigDecimal.ONE);
+        InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository);
+
+        //when
+        Investment investment = service.createInvestment(dto);
+        System.out.println(investment.getAccount().getNumber());
+
+        Investment investment2 = service.createInvestment(dto);
+
+        //then
+        Assert.assertNotNull(investment2);
     }
 
     private Account prepareAccount() {
