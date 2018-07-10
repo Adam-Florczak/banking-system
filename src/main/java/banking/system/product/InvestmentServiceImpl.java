@@ -79,9 +79,11 @@ public class InvestmentServiceImpl implements InvestmentService {
 
         Set<Investment> investments = account.getInvestments();
 
-        for (Investment investment1 : investments) {
-            if (investment1.getPayment().getDueDate().isAfter(LocalDateTime.now())) {
-                throw new ExistingInvestmentException();
+        if (investments != null && !investments.isEmpty()) {
+            for (Investment investment1 : investments) {
+                if (investment1.getPayment().getDueDate().isAfter(LocalDateTime.now())) {
+                    throw new ExistingInvestmentException();
+                }
             }
         }
 
