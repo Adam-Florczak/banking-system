@@ -53,6 +53,7 @@ public class AccountServiceImpl implements AccountService {
         repository.delete(id);
     }
 
+    //TODO: Modify this method bc it's stupid AF
     @Override
     public Account createAccount(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
