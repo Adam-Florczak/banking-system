@@ -144,9 +144,19 @@ h2 {
 
 .account-table {
     border: solid 1px white;
+    display: inline-flex;
+    width: 300px;
+    margin: 5px;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
 }
 
 .account-table div{
+    padding: 10px 15px;
+}
+
+.account-table p {
     padding: 5px;
 }
 
