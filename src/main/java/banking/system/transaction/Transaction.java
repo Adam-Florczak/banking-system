@@ -2,6 +2,7 @@ package banking.system.transaction;
 
 import banking.system.account.Account;
 import banking.system.common.Currency;
+import banking.system.product.Investment;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
