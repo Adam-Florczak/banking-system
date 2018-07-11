@@ -8,6 +8,7 @@ import banking.system.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -26,25 +27,23 @@ public class InvestmentServiceImpl implements InvestmentService {
     private InvestmentRepository investmentRepository;
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
+    private EntityManager entityManager;
 
     @Autowired
 
     public InvestmentServiceImpl(InvestmentRepository investmentRepository,
                                  AccountRepository accountRepository,
-                                 TransactionRepository transactionRepository) {
+                                 TransactionRepository transactionRepository,
+                                 EntityManager entityManager) {
         this.investmentRepository = investmentRepository;
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
     public Investment findById(Long id) {
-        Optional<Investment> optionalInvestment = investmentRepository.findById(id);
-        if (optionalInvestment.isPresent()) {
-            return optionalInvestment.get();
-        } else {
-            throw new RuntimeException("No investment found");
-        }
+        return investmentRepository.findById(id).orElseThrow(() -> new RuntimeException("No investment found"));
     }
 
     @Override
@@ -54,30 +53,19 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     @Override
     public Set<Investment> findByAccountId(Long id) {
-        Account account;
-        Optional<Account> optionalAccount = accountRepository.findById(id);
-        if (optionalAccount.isPresent()) {
-            account = optionalAccount.get();
-        } else {
-            throw new RuntimeException("No account found");
-        }
-
-        return account.getInvestments();
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No account found"))
+                .getInvestments();
     }
 
 
     @Override
     public Investment createInvestment(InvestmentDTO investmentDTO) {
-        Investment investment = new Investment();
-        Account account;
-        Optional<Account> optionalAccount = accountRepository.findOneByNumber(investmentDTO.getAccountNumber());
-        if (optionalAccount.isPresent()) {
-            account = optionalAccount.get();
-        } else {
-            throw new RuntimeException("No account found");
-        }
+        Account investmentOwner = accountRepository.findOneByNumber(investmentDTO.getAccountNumber())
+                .orElseThrow(() -> new RuntimeException("No account found"));
 
-        Set<Investment> investments = account.getInvestments();
+
+        Set<Investment> investments = investmentOwner.getInvestments();
 
         if (investments != null && !investments.isEmpty()) {
             for (Investment investment1 : investments) {
@@ -88,39 +76,39 @@ public class InvestmentServiceImpl implements InvestmentService {
         }
 
 
-        investment.setAccount(account);
-        investment.setAmount(investmentDTO.getAmount());
-        investment.setCurrency(investmentDTO.getCurrency());
-        investment.setInterest(INTEREST);
+        Investment investment = Investment.builder()
+                .withAccount(investmentOwner)
+                .withAmount(investmentDTO.getAmount())
+                .withCurrency(investmentDTO.getCurrency())
+                .withInterest(INTEREST)
+                .build();
 
-        Transaction payment = new Transaction();
-        payment.setDueDate(LocalDateTime.now().plusMonths(INVESTMENT_DURATION));
-        payment.setAmount(investment.getAmount().multiply(investment.getInterest()));
-        payment.setTitle("Investment payment id " + investment.getUuid());
-        payment.setTo(investment.getAccount());
-        Account bankAccount;
-        Optional<Account> optionalBankAccount = accountRepository.findOneByNumber(BANK_ACCOUNT_NUMBER_PREFIX + investment.getCurrency().name());
-        if (optionalBankAccount.isPresent()) {
-            bankAccount = optionalBankAccount.get();
+        Account bankAccount = accountRepository.findOneByNumber(BANK_ACCOUNT_NUMBER_PREFIX+investment.getCurrency().name())
+                .orElseThrow(() -> new RuntimeException("No correct bank account available"));
 
-        } else {
-            throw new RuntimeException("No correct bank account available");
-        }
-        payment.setFrom(bankAccount);
-        payment.setCurrency(investment.getCurrency());
-        investment.setPayment(payment);
+        Transaction outputTransferWithProfit = new Transaction();
+        outputTransferWithProfit.setDueDate(LocalDateTime.now().plusMonths(INVESTMENT_DURATION));
+        outputTransferWithProfit.setAmount(investment.getAmount().multiply(investment.getInterest()));
+        outputTransferWithProfit.setTitle("Investment payment id " + investment.getUuid());
+        outputTransferWithProfit.setTo(investment.getAccount());
+        outputTransferWithProfit.setFrom(bankAccount);
+        outputTransferWithProfit.setCurrency(investment.getCurrency());
+        outputTransferWithProfit = transactionRepository.save(outputTransferWithProfit);
+        investment.setPayment(outputTransferWithProfit);
 
 
-        Transaction invest = new Transaction();
-        invest.setCurrency(investment.getCurrency());
-        invest.setAmount(investment.getAmount());
-        invest.setDueDate(LocalDateTime.now());
-        invest.setFrom(investment.getAccount());
-        invest.setTo(bankAccount);
-        invest.setTitle("Investment id" + investment.getUuid());
-        transactionRepository.save(invest);
+        Transaction initializingTransfer = new Transaction();
+        initializingTransfer.setCurrency(investment.getCurrency());
+        initializingTransfer.setAmount(investment.getAmount());
+        initializingTransfer.setDueDate(LocalDateTime.now());
+        initializingTransfer.setFrom(investment.getAccount());
+        initializingTransfer.setTo(bankAccount);
+        initializingTransfer.setTitle("Investment id " + investment.getUuid());
+        transactionRepository.save(initializingTransfer);
 
-        return investmentRepository.save(investment);
+        Investment save = investmentRepository.save(investment);
+        entityManager.refresh(save);
+        return save;
     }
 
 
