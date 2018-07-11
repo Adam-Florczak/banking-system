@@ -16,7 +16,7 @@ public class Investment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Account account;
 
     @NotNull
@@ -27,13 +27,10 @@ public class Investment extends BaseEntity {
     private BigDecimal amount;
 
     @NotNull
-    private LocalDateTime term;
-
-    @NotNull
     private BigDecimal interest;
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Transaction payment;
 
     public Investment() {
@@ -43,7 +40,6 @@ public class Investment extends BaseEntity {
         this.account = account;
         this.currency = currency;
         this.amount = amount;
-        this.term = term;
         this.interest = interest;
         this.payment = payment;
     }
@@ -76,14 +72,6 @@ public class Investment extends BaseEntity {
         this.amount = amount;
     }
 
-    public LocalDateTime getTerm() {
-        return term;
-    }
-
-    public void setTerm(LocalDateTime term) {
-        this.term = term;
-    }
-
     public BigDecimal getInterest() {
         return interest;
     }
@@ -98,5 +86,51 @@ public class Investment extends BaseEntity {
 
     public void setPayment(Transaction payment) {
         this.payment = payment;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private Account account;
+        private Currency currency;
+        private BigDecimal amount;
+        private BigDecimal interest;
+        private Transaction payment;
+
+
+        private Builder() {        }
+
+        public Investment build() {
+            return new Investment(this.account, this.currency, this.amount, null, this.interest, this.payment);
+        }
+
+        public Builder withAccount(Account account) {
+            this.account = account;
+            return this;
+        }
+
+        public Builder withCurrency(Currency currency) {
+            this.currency = currency;
+            return this;
+        }
+
+        public Builder withAmount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public Builder withInterest(BigDecimal interest) {
+            this.interest = interest;
+            return this;
+        }
+
+        public Builder withPayment(Transaction payment) {
+            this.payment = payment;
+            return this;
+        }
+
     }
 }

@@ -52,7 +52,7 @@ public class Account extends BaseEntity {
     @OneToMany(mappedBy = "account")
     private Set<Credit> credits;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     private Set<Investment> investments;
 
     public Account() {
