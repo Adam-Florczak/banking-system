@@ -107,7 +107,7 @@ public class InvestmentServiceImpl implements InvestmentService {
         transactionRepository.save(initializingTransfer);
 
         Investment save = investmentRepository.save(investment);
-        entityManager.refresh(save);
+        entityManager.refresh(save.getAccount());
         return save;
     }
 

@@ -16,7 +16,7 @@ public class Investment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Account account;
 
     @NotNull
@@ -30,7 +30,7 @@ public class Investment extends BaseEntity {
     private BigDecimal interest;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Transaction payment;
 
     public Investment() {
