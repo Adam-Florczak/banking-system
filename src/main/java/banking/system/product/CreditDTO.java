@@ -24,6 +24,8 @@ public class CreditDTO {
         this.interest=credit.getInterest();
     }
 
+    public CreditDTO() {}
+
     public String getAccountNumber() {
         return accountNumber;
     }
