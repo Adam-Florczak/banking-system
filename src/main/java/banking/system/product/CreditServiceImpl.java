@@ -60,15 +60,13 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public Credit createCredit(CreditDTO creditDTO) {
         Credit credit = new Credit();
-        Optional<Account> optionalAccount = accountRepository.findOneByNumber(creditDTO.getAccountNumber());
-        Account account;
-        if (optionalAccount.isPresent()) {
-            account = optionalAccount.get();
-        } else {
-            throw new RuntimeException("No account found");
-        }
+
+        Account account = accountRepository.findOneByNumber(creditDTO.getAccountNumber())
+                .orElseThrow(() -> new RuntimeException("No account found"));
+
+
         if (haveOpenCredit(account)) {
-            throw new RuntimeException("This account have open credit right now");
+            throw new RuntimeException("This account already has an opened credit");
         }
 
         credit.setAccount(account);
@@ -82,21 +80,17 @@ public class CreditServiceImpl implements CreditService {
                 .divide(new BigDecimal(String.valueOf(credit.getInstallmentsQuantity())), BigDecimal.ROUND_DOWN);
         LocalDateTime paymentDate = LocalDateTime.now();
 
-        Account bankAccount;
-        Optional<Account> optionalBankAccount = accountRepository
-                .findOneByNumber(BANKACCOUNTNUMBERPREFIX + credit.getCurrency().name());
-        if (optionalBankAccount.isPresent()) {
-            bankAccount = optionalBankAccount.get();
-        } else {
-            throw new RuntimeException("No correct bank account available");
-        }
+        Account bankAccount = accountRepository.findOneByNumber(BANKACCOUNTNUMBERPREFIX + credit.getCurrency().name())
+                .orElseThrow(() -> new RuntimeException("No correct bank account available"));
 
         for (int i = 0; i < credit.getInstallmentsQuantity(); i++) {
             paymentDate = paymentDate.plusMonths(1L);
-            instalmentsSet.add(new Transaction(credit.getAccount(), bankAccount,
+            Transaction installment = new Transaction(credit.getAccount(), bankAccount,
                     paymentDate, credit.getCurrency(), installmentAmount,
-                    (i + 1) + " from " + credit.getInstallmentsQuantity() + " loan installment"));
+                    (i + 1) + " from " + credit.getInstallmentsQuantity() + " loan installment");
+            instalmentsSet.add(installment);
         }
+
         credit.setInstallments(instalmentsSet);
         Transaction grant = new Transaction();
         grant.setTitle("Grant from credit " + credit.getUuid());
@@ -118,10 +112,7 @@ public class CreditServiceImpl implements CreditService {
         Optional<Transaction> lastTransaction = account.getCredits().stream()
                 .flatMap(credit -> credit.getInstallments().stream())
                 .max(Comparator.comparing(Transaction::getDueDate));
-        if (lastTransaction.isPresent()) {
-            return lastTransaction.get().getDueDate()
-                    .isBefore(LocalDateTime.now());
-        }
-        return false;
+        return lastTransaction.map(transaction -> transaction.getDueDate()
+                .isBefore(LocalDateTime.now())).orElse(false);
     }
 }
