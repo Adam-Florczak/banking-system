@@ -73,12 +73,12 @@ public class InvestmentServiceImplTest {
         InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository, entityManager);
 
         //when
-        Investment investment = service.createInvestment(dto);
+        service.createInvestment(dto);
 
 
         //then
         expectedException.expect(ExistingInvestmentException.class);
-        Investment investment2 = service.createInvestment(dto);
+        service.createInvestment(dto);
     }
 
     private Account prepareAccount() {
@@ -100,22 +100,6 @@ public class InvestmentServiceImplTest {
         client.setEmail("abc");
         client.setPassword("pass");
         return client;
-    }
-
-    private Account prepareBankAccount() {
-        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
-        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
-
-        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
-        accountCreateDTO.setCurrency(Currency.PLN);
-        accountCreateDTO.setInterest(BigDecimal.ZERO);
-        accountCreateDTO.setProvision(BigDecimal.ZERO);
-        accountCreateDTO.setAccountType(AccountType.PERSONAL);
-
-        Account bankAccount = accountService.createAccount(accountCreateDTO);
-        bankAccount.setNumber("PL99769997PLN");
-        return accountRepository.save(bankAccount);
-
     }
 
 }
