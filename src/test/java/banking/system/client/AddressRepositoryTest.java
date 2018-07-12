@@ -1,5 +1,6 @@
 package banking.system.client;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,22 @@ import static org.junit.Assert.*;
 public class AddressRepositoryTest {
 
     @Autowired
-    TestEntityManager entityManager;
-
-    @Autowired
     AddressRepository addressRepository;
 
     @Test
-    public void findById() {
+    public void givenProperAddress_WhenSavedAndRetrievedFromDb_ThenSavingAndSavedCityAreEquals() {
+        //given
+        Address address = new Address("Poland",
+                "Wrocław", "50-950", "Dąbrowskiego", "10");
+        AddressCreateDTO dto = new AddressCreateDTO(address);
+        AddressServiceImpl service = new AddressServiceImpl(addressRepository);
+
+        //when
+        Address saved = service.createAddress(dto);
+
+        //then
+        Assert.assertEquals(saved.getCity(), address.getCity());
+
 
     }
 }
