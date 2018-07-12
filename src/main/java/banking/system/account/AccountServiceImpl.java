@@ -1,7 +1,12 @@
 package banking.system.account;
 
-import banking.system.common.Currency;
+import banking.system.client.Client;
+import banking.system.client.ClientRepository;
+import banking.system.common.profits.ProfitsRepository;
+import banking.system.exceptions.ClientNotActivatedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +19,14 @@ import java.util.Set;
 public class AccountServiceImpl implements AccountService {
 
     private AccountRepository repository;
+    private ClientRepository clientRepository;
+    private ProfitsRepository profitsRepository;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository repository) {
+    public AccountServiceImpl(AccountRepository repository, ClientRepository clientRepository, ProfitsRepository profitsRepository) {
         this.repository = repository;
+        this.clientRepository = clientRepository;
+        this.profitsRepository = profitsRepository;
     }
 
     public AccountServiceImpl() {
@@ -53,79 +62,51 @@ public class AccountServiceImpl implements AccountService {
         repository.delete(id);
     }
 
-    //TODO: Modify this method bc it's stupid AF
     @Override
     public Account createAccount(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
-        account.setOwner(accountCreateDTO.getOwner());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Client client = clientRepository.findByEmail(email).orElseThrow(ClientNotActivatedException::new);
+
+        account.setOwner(client);
         account.setCurrency(accountCreateDTO.getCurrency());
-
-        boolean isNrOk = false;
-        while (!isNrOk) {
-            String accountNumber = generateAccountNumber();
-            if (!isAccountExists(accountNumber)) {
-                account.setNumber(accountNumber);
-                isNrOk = true;
-            }
-        }
-
+        account.setNumber(checkAccNumber());
         account.setBalance(BigDecimal.ZERO);
         account.setType(accountCreateDTO.getAccountType());
-        account.setInterest(accountCreateDTO.getInterest());
-        account.setProvision(accountCreateDTO.getProvision());
-
-        if (account.getType().equals(AccountType.PERSONAL)) {
-            if (!(account.getProvision().equals(BigDecimal.ZERO))) {
-                throw new RuntimeException("Personal account must not have set provision!");
-            }
-
-            if (!(account.getInterest().equals(BigDecimal.ZERO))) {
-                throw new RuntimeException("Personal account must not have set interest");
-            }
-
-            if (!(account.getCurrency().equals(Currency.PLN))) {
-                throw new RuntimeException("Personal account must have set PLN currency");
-            }
-
-            return repository.save(account);
-        }
 
         if (account.getType().equals(AccountType.FOREIGNCURRENCY)) {
-            if (account.getProvision().equals(BigDecimal.ZERO)) {
-                throw new RuntimeException("Forreign currency account must have set provision!");
-            }
-
-            if (!(account.getInterest().equals(BigDecimal.ZERO))) {
-                throw new RuntimeException("Forreign currency account must not have set interest");
-            }
-
-            if (account.getCurrency().equals(Currency.PLN)) {
-                throw new RuntimeException("Forreign currency account must not have set PLN currency");
-            }
-
+            account.setInterest(BigDecimal.ZERO);
+            account.setProvision(profitsRepository
+                    .findByName("ForeignCurrencyProvision")
+                    .orElseThrow(RuntimeException::new)
+                    .getPercent());
             return repository.save(account);
-
         }
 
         if (account.getType().equals(AccountType.SAVINGS)) {
-            if (! (account.getProvision().equals(BigDecimal.ZERO))) {
-                throw new RuntimeException("Savings account must not have set provision!");
-            }
-
-            if (account.getInterest().equals(BigDecimal.ZERO)) {
-                throw new RuntimeException("Savings account must have set interest");
-            }
-
-            if (!(account.getCurrency().equals(Currency.PLN))) {
-                throw new RuntimeException("Savings account must have set PLN currency");
-            }
-
+            account.setInterest(profitsRepository
+                    .findByName("SavingsInterest")
+                    .orElseThrow(RuntimeException::new)
+                    .getPercent());
+            account.setProvision(BigDecimal.ZERO);
             return repository.save(account);
-
         }
-
         throw new RuntimeException("Account must have set account type");
+    }
 
+    private String checkAccNumber() {
+        boolean isNrOk = false;
+        String acc = "";
+        while (!isNrOk) {
+            String accountNumber = generateAccountNumber();
+            if (!isAccountExists(accountNumber)) {
+                acc = accountNumber;
+                isNrOk = true;
+            }
+        }
+        return acc;
     }
 
     @Override

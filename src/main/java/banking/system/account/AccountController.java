@@ -40,14 +40,6 @@ public class AccountController {
     public ModelAndView createNewAccount(AccountCreateDTO createDTO){
         ModelAndView modelAndView = new ModelAndView();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        Client client = clientService.findClientByEmail(email);
-        createDTO.setOwner(client);
-        createDTO.setInterest(BigDecimal.ZERO);
-        createDTO.setProvision(BigDecimal.ZERO);
-
-        Currency.values();
         accountService.createAccount(createDTO);
         modelAndView.addObject("successMessage", "Account has been created");
         modelAndView.setViewName("accountPage");
