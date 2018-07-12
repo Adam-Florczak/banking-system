@@ -39,6 +39,8 @@ public class AddressServiceImpl implements AddressService{
         address.setCountry(addressCreateDTO.getCountry());
         address.setCity(addressCreateDTO.getCity());
         address.setStreet(addressCreateDTO.getStreet());
+        address.setNumber(addressCreateDTO.getNumber());
+        address.setZipCode(addressCreateDTO.getZipCode());
         return addressRepository.save(address);
     }
 

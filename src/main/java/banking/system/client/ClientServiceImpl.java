@@ -109,7 +109,7 @@ public class ClientServiceImpl implements ClientService {
         address.setNumber(clientDTO.getNumber());
 
         client.setAddress(address);
-//        clientRepository.save(client);
+        clientRepository.save(client);
 
         Account account = new Account();
 

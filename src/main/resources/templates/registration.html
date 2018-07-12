@@ -6,8 +6,8 @@
     <title>Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <!--<link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">-->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}">
+    <!--<link rel="stylesheet" type="text/css" href="style.css">-->
 </head>
 <body>
 <div>
@@ -19,8 +19,8 @@
 <form autocomplete="off" th:action="@{/registration}"
       th:object="${clientDTO}" method="POST" enctype="utf8">
     <div class="double-col">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
                 <div>
                     <label>First name: </label><br>
                     <input type="text" th:field="*{firstName}"/>
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div>
                     <label>Country: </label><br>
                     <input type="text" th:field="*{country}"/>

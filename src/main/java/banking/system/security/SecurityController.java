@@ -37,6 +37,17 @@ public class SecurityController {
         return modelAndView;
     }
 
+    @RequestMapping(value={"/", "/hello"}, method = RequestMethod.GET)
+    public ModelAndView accountPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Client client = clientService.findClientByEmail(auth.getName());
+        modelAndView.addObject("userName", client.getFirstName() + " " + client.getLastName());
+        modelAndView.addObject("accNumber", client.getAccountSet().iterator().next().getNumber());
+        modelAndView.setViewName("accountPage");
+        return modelAndView;
+    }
+
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
