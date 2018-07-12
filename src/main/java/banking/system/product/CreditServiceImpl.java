@@ -109,10 +109,15 @@ public class CreditServiceImpl implements CreditService {
     }
 
     private boolean haveOpenCredit(Account account) {
-        Optional<Transaction> lastTransaction = account.getCredits().stream()
+        if(account.getCredits() == null){
+            return false;
+        }
+
+        return account.getCredits().stream()
                 .flatMap(credit -> credit.getInstallments().stream())
-                .max(Comparator.comparing(Transaction::getDueDate));
-        return lastTransaction.map(transaction -> transaction.getDueDate()
-                .isBefore(LocalDateTime.now())).orElse(false);
+                .max(Comparator.comparing(Transaction::getDueDate))
+                .map(transaction -> transaction.getDueDate()
+                .isBefore(LocalDateTime.now()))
+                .orElse(false);
     }
 }
