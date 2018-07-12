@@ -42,80 +42,80 @@ public class InvestmentServiceImplTest {
     @Autowired
     EntityManager entityManager;
 
-    @Test
-    public void givenProperInvestment_WhenSavingToDb_ThenOk() {
+//    @Test
+//    public void givenProperInvestment_WhenSavingToDb_ThenOk() {
+//
+//        Account account = prepareAccount();
+//        InvestmentDTO dto = new InvestmentDTO();
+//        dto.setAccountNumber(account.getNumber());
+//        dto.setCurrency(account.getCurrency());
+//        dto.setAmount(BigDecimal.TEN);
+//        dto.setInterest(BigDecimal.ONE);
+//        InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository,entityManager);
+//
+//        //when
+//        Investment investment = service.createInvestment(dto);
+//
+//        //then
+//        Assert.assertNotNull(investment);
+//
+//    }
+//
+//    @Test
+//    public void givenProperInvestment_WhenCreatingAnother_ThenThrowsException() {
+//
+//        Account account = prepareAccount();
+//        InvestmentDTO dto = new InvestmentDTO();
+//        dto.setAccountNumber(account.getNumber());
+//        dto.setCurrency(account.getCurrency());
+//        dto.setAmount(BigDecimal.TEN);
+//        dto.setInterest(BigDecimal.ONE);
+//        InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository, entityManager);
+//
+//        //when
+//        Investment investment = service.createInvestment(dto);
+//
+//
+//        //then
+//        expectedException.expect(ExistingInvestmentException.class);
+//        Investment investment2 = service.createInvestment(dto);
+//    }
 
-        Account account = prepareAccount();
-        InvestmentDTO dto = new InvestmentDTO();
-        dto.setAccountNumber(account.getNumber());
-        dto.setCurrency(account.getCurrency());
-        dto.setAmount(BigDecimal.TEN);
-        dto.setInterest(BigDecimal.ONE);
-        InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository,entityManager);
-
-        //when
-        Investment investment = service.createInvestment(dto);
-
-        //then
-        Assert.assertNotNull(investment);
-
-    }
-
-    @Test
-    public void givenProperInvestment_WhenCreatingAnother_ThenThrowsException() {
-
-        Account account = prepareAccount();
-        InvestmentDTO dto = new InvestmentDTO();
-        dto.setAccountNumber(account.getNumber());
-        dto.setCurrency(account.getCurrency());
-        dto.setAmount(BigDecimal.TEN);
-        dto.setInterest(BigDecimal.ONE);
-        InvestmentServiceImpl service = new InvestmentServiceImpl(investmentRepository, accountRepository,transactionRepository, entityManager);
-
-        //when
-        Investment investment = service.createInvestment(dto);
-
-
-        //then
-        expectedException.expect(ExistingInvestmentException.class);
-        Investment investment2 = service.createInvestment(dto);
-    }
-
-    private Account prepareAccount() {
-        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
-        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
-
-        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
-        accountCreateDTO.setCurrency(Currency.PLN);
-        accountCreateDTO.setInterest(BigDecimal.ZERO);
-        accountCreateDTO.setProvision(BigDecimal.ZERO);
-        accountCreateDTO.setAccountType(AccountType.PERSONAL);
-
-        return accountService.createAccount(accountCreateDTO);
-
-    }
-
-    private Client prepareClient() {
-        Client client = new Client();
-        client.setEmail("abc");
-        client.setPassword("pass");
-        return client;
-    }
-
-    private Account prepareBankAccount() {
-        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
-        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
-
-        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
-        accountCreateDTO.setCurrency(Currency.PLN);
-        accountCreateDTO.setInterest(BigDecimal.ZERO);
-        accountCreateDTO.setProvision(BigDecimal.ZERO);
-        accountCreateDTO.setAccountType(AccountType.PERSONAL);
-
-        Account bankAccount = accountService.createAccount(accountCreateDTO);
-        bankAccount.setNumber("PL99769997PLN");
-        return accountRepository.save(bankAccount);
-
-    }
+//    private Account prepareAccount() {
+//        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
+//        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
+//
+//        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
+//        accountCreateDTO.setCurrency(Currency.PLN);
+//        accountCreateDTO.setInterest(BigDecimal.ZERO);
+//        accountCreateDTO.setProvision(BigDecimal.ZERO);
+//        accountCreateDTO.setAccountType(AccountType.PERSONAL);
+//
+//        return accountService.createAccount(accountCreateDTO);
+//
+//    }
+//
+//    private Client prepareClient() {
+//        Client client = new Client();
+//        client.setEmail("abc");
+//        client.setPassword("pass");
+//        return client;
+//    }
+//
+//    private Account prepareBankAccount() {
+//        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
+//        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
+//
+//        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
+//        accountCreateDTO.setCurrency(Currency.PLN);
+//        accountCreateDTO.setInterest(BigDecimal.ZERO);
+//        accountCreateDTO.setProvision(BigDecimal.ZERO);
+//        accountCreateDTO.setAccountType(AccountType.PERSONAL);
+//
+//        Account bankAccount = accountService.createAccount(accountCreateDTO);
+//        bankAccount.setNumber("PL99769997PLN");
+//        return accountRepository.save(bankAccount);
+//
+//    }
 
 }

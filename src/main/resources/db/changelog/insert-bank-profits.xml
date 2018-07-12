@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="seba (generated)" id="1530722154384-62">
+        <insert tableName="profits">
+            <column name="id" valueNumeric="3001"/>
+            <column name="name" value="ForeignCurrencyProvision"/>
+            <column name="percent" valueNumeric="0.01"/>
+        </insert>
+        <insert tableName="profits">
+            <column name="id" valueNumeric="3002"/>
+            <column name="name" value="SavingsInterest"/>
+            <column name="percent" valueNumeric="0.05"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
