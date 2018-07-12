@@ -62,16 +62,16 @@ h1 {
 
 body {
     /*background-image: url("../../templates/img/green.jpg");*/
-    background-image: url("/../img/green.jpg");
+    background-image: url("../../templates/img/green.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
 
-#pig-background {
+#account-background {
     /*background-image: url("../../templates/img/2.jpeg");*/
-    background-image: url("/../img/2.jpeg");
+    background-image: url("../../public/img/2.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -93,7 +93,7 @@ label {
 
 button {
     font-family: 'Helvetica', sans-serif;
-    background-color: #B2FF9E;
+    background-color: lightgreen;
     font-size: 15px;
     margin: 20px 30px;
     border-radius: 5px;
@@ -144,9 +144,19 @@ h2 {
 
 .account-table {
     border: solid 1px white;
+    display: inline-flex;
+    width: 300px;
+    margin: 5px;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
 }
 
 .account-table div{
+    padding: 10px 15px;
+}
+
+.account-table p {
     padding: 5px;
 }
 
