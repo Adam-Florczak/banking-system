@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.nio.channels.AcceptPendingException;
 
@@ -31,6 +32,9 @@ public class CreditServiceImplTest {
     @Autowired
     TransactionRepository transactionRepository;
 
+    @Autowired
+    EntityManager entityManager;
+
     @Test
     public void givenProperCredit_WhenSavedAndRetrievedFromDb_ThenSavingAndSavedAmountIsEqual() {
 
@@ -43,13 +47,33 @@ public class CreditServiceImplTest {
         dto.setInstallmentsQuantity(12);
         dto.setInterest(new BigDecimal(2));
 
-        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository, transactionRepository);
+        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
+                transactionRepository, entityManager);
 
         //when
         Credit saved = service.createCredit(dto);
 
         //then
         Assert.assertEquals(saved.getAmount(), dto.getAmount());
+    }
+
+    @Test
+    public void givenProperCredit_WhenCreatingAnother_ThenThrowsException() {
+
+        Account account = prepareAccount();
+        CreditDTO dto = new CreditDTO();
+        dto.setAccountNumber(account.getNumber());
+        dto.setAmount(new BigDecimal("1000"));
+        dto.setCurrency(Currency.PLN);
+        dto.setInstallmentsQuantity(12);
+        dto.setInterest(new BigDecimal(2));
+
+        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
+                transactionRepository, entityManager);
+
+        service.createCredit(dto);
+        service.createCredit(dto);
+
 
     }
 

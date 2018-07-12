@@ -2,7 +2,9 @@ package banking.system.transaction;
 
 import banking.system.account.Account;
 import banking.system.common.Currency;
+import banking.system.product.Credit;
 import banking.system.product.Investment;
+import com.sun.istack.internal.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -33,6 +35,10 @@ public class Transaction {
 
     @NotNull
     private BigDecimal amount;
+
+    @Nullable
+    @ManyToOne
+    private Credit credit;
 
     @NotNull
     private String title;
@@ -101,4 +107,11 @@ public class Transaction {
         this.title = title;
     }
 
+    public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }
 }

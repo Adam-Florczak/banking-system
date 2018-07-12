@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -21,12 +22,17 @@ public class CreditServiceImpl implements CreditService {
     private CreditRepository creditRepository;
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
+    private EntityManager entityManager;
 
     @Autowired
-    public CreditServiceImpl(CreditRepository creditRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
+    public CreditServiceImpl(CreditRepository creditRepository,
+                             AccountRepository accountRepository,
+                             TransactionRepository transactionRepository,
+                             EntityManager entityManager) {
         this.creditRepository = creditRepository;
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -100,7 +106,10 @@ public class CreditServiceImpl implements CreditService {
         grant.setAmount(credit.getAmount());
         grant.setDueDate(LocalDateTime.now());
         transactionRepository.save(grant);
-        return creditRepository.save(credit);
+
+        Credit save = creditRepository.save(credit);
+        entityManager.refresh(save.getInstallments());
+        return save;
     }
 
     @Override

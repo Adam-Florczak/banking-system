@@ -32,7 +32,7 @@ public class Credit extends BaseEntity {
     @NotNull
     private BigDecimal interest;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "credit", cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
     private Set<Transaction> installments;
 
     public Credit() {
