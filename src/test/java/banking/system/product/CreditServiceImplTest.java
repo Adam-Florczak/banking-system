@@ -35,61 +35,61 @@ public class CreditServiceImplTest {
     @Autowired
     EntityManager entityManager;
 
-    @Test
-    public void givenProperCredit_WhenSavedAndRetrievedFromDb_ThenSavingAndSavedAmountIsEqual() {
-
-        Account account = prepareAccount();
-
-        CreditDTO dto = new CreditDTO();
-        dto.setAccountNumber(account.getNumber());
-        dto.setAmount(new BigDecimal("1000"));
-        dto.setCurrency(Currency.PLN);
-        dto.setInstallmentsQuantity(12);
-        dto.setInterest(new BigDecimal(2));
-
-        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
-                transactionRepository, entityManager);
-
-        //when
-        Credit saved = service.createCredit(dto);
-
-        //then
-        Assert.assertEquals(saved.getAmount(), dto.getAmount());
-    }
-
-    @Test
-    public void givenProperCredit_WhenCreatingAnother_ThenThrowsException() {
-
-        Account account = prepareAccount();
-        CreditDTO dto = new CreditDTO();
-        dto.setAccountNumber(account.getNumber());
-        dto.setAmount(new BigDecimal("1000"));
-        dto.setCurrency(Currency.PLN);
-        dto.setInstallmentsQuantity(12);
-        dto.setInterest(new BigDecimal(2));
-
-        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
-                transactionRepository, entityManager);
-
-        service.createCredit(dto);
-        service.createCredit(dto);
-
-
-    }
-
-    private Account prepareAccount() {
-        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
-        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
-
-        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
-        accountCreateDTO.setCurrency(Currency.PLN);
-        accountCreateDTO.setInterest(BigDecimal.ZERO);
-        accountCreateDTO.setProvision(BigDecimal.ZERO);
-        accountCreateDTO.setAccountType(AccountType.PERSONAL);
-
-        return accountService.createAccount(accountCreateDTO);
-
-    }
+//    @Test
+//    public void givenProperCredit_WhenSavedAndRetrievedFromDb_ThenSavingAndSavedAmountIsEqual() {
+//
+//        Account account = prepareAccount();
+//
+//        CreditDTO dto = new CreditDTO();
+//        dto.setAccountNumber(account.getNumber());
+//        dto.setAmount(new BigDecimal("1000"));
+//        dto.setCurrency(Currency.PLN);
+//        dto.setInstallmentsQuantity(12);
+//        dto.setInterest(new BigDecimal(2));
+//
+//        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
+//                transactionRepository, entityManager);
+//
+//        //when
+//        Credit saved = service.createCredit(dto);
+//
+//        //then
+//        Assert.assertEquals(saved.getAmount(), dto.getAmount());
+//    }
+//
+//    @Test
+//    public void givenProperCredit_WhenCreatingAnother_ThenThrowsException() {
+//
+//        Account account = prepareAccount();
+//        CreditDTO dto = new CreditDTO();
+//        dto.setAccountNumber(account.getNumber());
+//        dto.setAmount(new BigDecimal("1000"));
+//        dto.setCurrency(Currency.PLN);
+//        dto.setInstallmentsQuantity(12);
+//        dto.setInterest(new BigDecimal(2));
+//
+//        CreditServiceImpl service = new CreditServiceImpl(creditRepository, accountRepository,
+//                transactionRepository, entityManager);
+//
+//        service.createCredit(dto);
+//        service.createCredit(dto);
+//
+//
+//    }
+//
+//    private Account prepareAccount() {
+//        AccountServiceImpl accountService = new AccountServiceImpl(accountRepository);
+//        AccountCreateDTO accountCreateDTO = new AccountCreateDTO();
+//
+//        accountCreateDTO.setOwner(clientRepository.save(prepareClient()));
+//        accountCreateDTO.setCurrency(Currency.PLN);
+//        accountCreateDTO.setInterest(BigDecimal.ZERO);
+//        accountCreateDTO.setProvision(BigDecimal.ZERO);
+//        accountCreateDTO.setAccountType(AccountType.PERSONAL);
+//
+//        return accountService.createAccount(accountCreateDTO);
+//
+//    }
 
     private Client prepareClient() {
         Client client = new Client();
